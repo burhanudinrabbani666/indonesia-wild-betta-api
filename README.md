@@ -6,19 +6,7 @@ Indonesia has a wealth of beautiful wild betta fish. Their colors are natural an
 
 This API contains information about Indonesian wild betta fish, along with photos. I hope this is helpful and that you're interested in Indonesian wild betta fish.
 
-To install dependencies:
-
-```sh
-bun install
-```
-
-To run:
-
-```sh
-bun run dev
-```
-
-# API Documentations
+## API Documentations
 
 - Local: `http://localhost:3000` (common default)
 - Production: `https://indonesiawildbetta.burhanudin.com`
