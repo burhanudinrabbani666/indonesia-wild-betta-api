@@ -18,4 +18,17 @@ To run:
 bun run dev
 ```
 
-open http://localhost:3000
+# API Documentations
+
+- Local: `http://localhost:3000` (common default)
+- Production: `https://indonesiawildbetta.burhanudin.com`
+
+| Endpoint       | HTTP     | Description       | status |
+| -------------- | -------- | ----------------- | ------ |
+| `/items`       | `GET`    | Get all items     | ✅     |
+| `/items/:slug` | `GET`    | Get item by slug  | ✅     |
+| `/items`       | `POST`   | Add new item      |        |
+| `/items`       | `DELETE` | Delete all items  |        |
+| `/items/{id}`  | `DELETE` | Delete item by id |        |
+| `/items/{id}`  | `PATCH`  | Patch item by id  |        |
+| `/items/{id}`  | `PUT`    | Update item by id |        |
