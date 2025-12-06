@@ -1,11 +1,8 @@
 import { Hono } from "hono";
+import { dataBettas } from "./data";
 
 export const bettaRoute = new Hono();
 
 bettaRoute.get("/", (c) => {
-  return c.json([
-    { id: 1, name: "Betta channoides" },
-    { id: 1, name: "Betta albimarginata" },
-    { id: 1, name: "Betta hendra " },
-  ]);
+  return c.json(dataBettas);
 });
