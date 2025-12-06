@@ -1,6 +1,7 @@
 type Betta = {
   id: number;
   name: string;
+  slug: string;
   location: string;
   phWater: string;
   category: string;
@@ -13,7 +14,8 @@ type Bettas = Betta[];
 export const dataBettas: Bettas = [
   {
     id: 1,
-    name: "Betta channoides",
+    name: "Betta Channoides",
+    slug: "betta-channoides",
     location: "East Kalimantan",
     phWater: "4,0-6,5",
     category: "Small Mouthbrooder",
@@ -22,7 +24,8 @@ export const dataBettas: Bettas = [
   },
   {
     id: 2,
-    name: "Betta albimarginata",
+    name: "Betta Albimarginata",
+    slug: "betta-albimarginata",
     location: "East Kalimantan",
     phWater: "4,0-6,0",
     category: "Small Mouthbrooder",
@@ -31,7 +34,8 @@ export const dataBettas: Bettas = [
   },
   {
     id: 3,
-    name: "Betta hendra ",
+    name: "Betta Hendra",
+    slug: "betta-hendra",
     location: "Central Kalimantan",
     phWater: "4,0 - 6,5",
     category: "Bubble Nester Small",
