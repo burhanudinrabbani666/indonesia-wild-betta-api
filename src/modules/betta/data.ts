@@ -1,7 +1,7 @@
 import { randomUUIDv7 } from "bun";
 import { type Bettas } from "../type/schema";
 
-export const dataBettas: Bettas = [
+export let wildBettas: Bettas = [
   {
     id: randomUUIDv7(),
     name: "Betta Channoides",
