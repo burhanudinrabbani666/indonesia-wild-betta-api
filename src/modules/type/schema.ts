@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const BettaSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   slug: z.string(),
   location: z.object({
