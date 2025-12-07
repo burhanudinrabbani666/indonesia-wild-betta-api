@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { dataBettas } from "./data";
-import { sleep } from "bun";
 
 export const bettaRoute = new Hono();
 
@@ -8,6 +7,7 @@ bettaRoute.get("/", (c) => {
   return c.json(dataBettas);
 });
 
+// Get Data By Slug
 bettaRoute.get("/:slug", (c) => {
   const slug = c.req.param("slug");
 
@@ -19,3 +19,15 @@ bettaRoute.get("/:slug", (c) => {
 
   return c.json(getBetta);
 });
+
+// Search Data by Name
+
+// Search Data's by Category
+
+// Add new Data
+
+// bettaRoute.post("/", ())
+
+// Delete Data
+
+// Update Data
