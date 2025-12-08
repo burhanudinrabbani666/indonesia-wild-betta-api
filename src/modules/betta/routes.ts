@@ -7,14 +7,14 @@ export const bettaRoute = new Hono();
 let dataBettas: WildBetta[] = wildBettas;
 
 bettaRoute.get("/", (c) => {
-  return c.json(wildBettas);
+  return c.json(dataBettas);
 });
 
 // Get Data By Slug
 bettaRoute.get("/:slug", (c) => {
   const slug = c.req.param("slug");
 
-  const getBetta = wildBettas.find((betta) => betta.slug === slug);
+  const getBetta = dataBettas.find((betta) => betta.slug === slug);
 
   if (!getBetta) {
     return c.notFound();
@@ -22,10 +22,6 @@ bettaRoute.get("/:slug", (c) => {
 
   return c.json(getBetta);
 });
-
-// Search Data by Name
-
-// Search Data's by Category
 
 // Add new Data
 bettaRoute.post("/", zValidator("json", BettaSchemaInput), (c) => {
@@ -37,8 +33,22 @@ bettaRoute.post("/", zValidator("json", BettaSchemaInput), (c) => {
 
   return c.json(updatedBettas, 201);
 });
-// bettaRoute.post("/", ())
 
 // Delete Data
+bettaRoute.delete("/:name", (c) => {
+  try {
+    const name = c.req.param("name").toLowerCase();
+    const updatedBettas = dataBettas.filter((betta) => betta.name !== name);
+
+    dataBettas = updatedBettas;
+    return c.json({ message: "data has been successfully deleted" });
+  } catch (error) {
+    return c.json({ message: "Something Wrong" });
+  }
+});
+
+// bettaRoute.post("/", ())
+// Search Data by Name
+// Search Data's by Category
 
 // Update Data

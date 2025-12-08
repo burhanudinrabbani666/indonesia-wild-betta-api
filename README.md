@@ -15,8 +15,7 @@ This API contains information about Indonesian wild betta fish, along with photo
 | -------------- | -------- | ----------------- | ------ |
 | `/items`       | `GET`    | Get all items     | ✅     |
 | `/items/:slug` | `GET`    | Get item by slug  | ✅     |
-| `/items`       | `POST`   | Add new item      |        |
+| `/items`       | `POST`   | Add new item      | ✅     |
 | `/items`       | `DELETE` | Delete all items  |        |
-| `/items/{id}`  | `DELETE` | Delete item by id |        |
 | `/items/{id}`  | `PATCH`  | Patch item by id  |        |
 | `/items/{id}`  | `PUT`    | Update item by id |        |
