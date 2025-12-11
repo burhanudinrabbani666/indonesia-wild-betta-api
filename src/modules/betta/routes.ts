@@ -4,17 +4,17 @@ import { wildBettas } from "./data";
 import { BettaInput, BettaSchemaInput, WildBetta } from "../type/schema";
 export const bettaRoute = new Hono();
 
-let dataBettas: WildBetta[] = wildBettas;
+let dataWildBettas: WildBetta[] = wildBettas;
 
 bettaRoute.get("/", (c) => {
-  return c.json(dataBettas);
+  return c.json(dataWildBettas);
 });
 
 // Get Data By Slug
 bettaRoute.get("/:slug", (c) => {
   const slug = c.req.param("slug");
 
-  const getBetta = dataBettas.find((betta) => betta.slug === slug);
+  const getBetta = dataWildBettas.find((betta) => betta.slug === slug);
 
   if (!getBetta) {
     return c.notFound();
@@ -27,28 +27,24 @@ bettaRoute.get("/:slug", (c) => {
 bettaRoute.post("/", zValidator("json", BettaSchemaInput), (c) => {
   const bettaJSON: BettaInput = c.req.valid("json");
 
-  const newBetta = new WildBetta(bettaJSON);
-  const updatedBettas = [...wildBettas, newBetta];
-  dataBettas = updatedBettas;
+  const newWildBetta = new WildBetta(bettaJSON);
+  const updatedWildBettas = [...wildBettas, newWildBetta];
+  dataWildBettas = updatedWildBettas;
 
-  return c.json(updatedBettas, 201);
+  return c.json(updatedWildBettas, 201);
 });
 
 // Delete Data
 bettaRoute.delete("/:name", (c) => {
   try {
     const name = c.req.param("name").toLowerCase();
-    const updatedBettas = dataBettas.filter((betta) => betta.name !== name);
+    const updatedBettas = dataWildBettas.filter((betta) => betta.name !== name);
 
-    dataBettas = updatedBettas;
+    dataWildBettas = updatedBettas;
     return c.json({ message: "data has been successfully deleted" });
   } catch (error) {
-    return c.json({ message: "Something Wrong" });
+    return c.json({ message: "failed to delete, wild betta data not found" });
   }
 });
-
-// bettaRoute.post("/", ())
-// Search Data by Name
-// Search Data's by Category
 
 // Update Data

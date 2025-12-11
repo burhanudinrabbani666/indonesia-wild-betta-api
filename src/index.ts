@@ -7,6 +7,6 @@ const app = new Hono();
 
 app.use(logger());
 app.route("/", commonRoute);
-app.route("/bettas", bettaRoute);
+app.route("/wild-bettas", bettaRoute);
 
 export default app;
