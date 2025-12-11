@@ -35,10 +35,10 @@ bettaRoute.post("/", zValidator("json", BettaSchemaInput), (c) => {
 });
 
 // Delete Data
-bettaRoute.delete("/:name", (c) => {
+bettaRoute.delete("/:slug", (c) => {
   try {
-    const name = c.req.param("name").toLowerCase();
-    const updatedBettas = dataWildBettas.filter((betta) => betta.name !== name);
+    const name = c.req.param("slug").toLowerCase();
+    const updatedBettas = dataWildBettas.filter((betta) => betta.slug !== name);
 
     dataWildBettas = updatedBettas;
     return c.json({ message: "data has been successfully deleted" });
