@@ -1,9 +1,9 @@
 import { randomUUIDv7 } from "bun";
 import { type Bettas } from "../type/schema";
 
-export let wildBettas: Bettas = [
+export let dataBettas: Bettas = [
   {
-    id: randomUUIDv7(),
+    id: "019b0d98-4f1c-735b-b81d-509de649a7c4",
     name: "Betta Channoides",
     slug: "betta-channoides",
     location: {
@@ -18,7 +18,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b0d98-4f1c-735b-b81d-509de649a7c4",
     name: "Betta Albimarginata",
     slug: "betta-albimarginata",
     location: { river: "Sebuku", city: "nunukan", province: "East Kalimantan" },

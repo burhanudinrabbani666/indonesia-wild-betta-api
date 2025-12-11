@@ -1,50 +1,56 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { wildBettas } from "./data";
-import { BettaInput, BettaSchemaInput, WildBetta } from "../type/schema";
+import { dataBettas } from "./data";
+import { CreateBetta, CreateBettaSchema, BettaClass } from "../type/schema";
 export const bettaRoute = new Hono();
 
-let dataWildBettas: WildBetta[] = wildBettas;
+let bettas: BettaClass[] = dataBettas;
 
+// Get all bettas
 bettaRoute.get("/", (c) => {
-  return c.json(dataWildBettas);
+  return c.json(bettas);
 });
 
-// Get Data By Slug
+// Get one betta by slug
 bettaRoute.get("/:slug", (c) => {
   const slug = c.req.param("slug");
 
-  const getBetta = dataWildBettas.find((betta) => betta.slug === slug);
+  const betta = bettas.find((betta) => betta.slug === slug);
 
-  if (!getBetta) {
+  if (!betta) {
     return c.notFound();
   }
 
-  return c.json(getBetta);
+  return c.json(betta);
 });
 
-// Add new Data
-bettaRoute.post("/", zValidator("json", BettaSchemaInput), (c) => {
-  const bettaJSON: BettaInput = c.req.valid("json");
+// Add new betta
+bettaRoute.post("/", zValidator("json", CreateBettaSchema), (c) => {
+  const body: CreateBetta = c.req.valid("json");
 
-  const newWildBetta = new WildBetta(bettaJSON);
-  const updatedWildBettas = [...wildBettas, newWildBetta];
-  dataWildBettas = updatedWildBettas;
+  const newBetta = new BettaClass(body);
 
-  return c.json(newWildBetta, 201);
+  bettas = [...bettas, newBetta];
+
+  return c.json(newBetta, 201);
 });
 
-// Delete Data
-bettaRoute.delete("/:slug", (c) => {
+// Delete betta by id
+bettaRoute.delete("/:id", (c) => {
   try {
-    const name = c.req.param("slug").toLowerCase();
+    const id = c.req.param("id");
 
-    const updatedBettas = dataWildBettas.filter((betta) => betta.slug !== name);
+    const updatedBettas = bettas.filter((betta) => betta.id !== id);
 
-    dataWildBettas = updatedBettas;
-    return c.json({ message: "data has been successfully deleted" });
+    if (bettas === updatedBettas) {
+      throw new Error("Betta to delete not found");
+    }
+
+    bettas = updatedBettas;
+
+    return c.json({ message: "Betta has been deleted" });
   } catch (error) {
-    return c.json({ message: "failed to delete, wild betta data not found" });
+    return c.json({ message: "Betta failed to delete" });
   }
 });
 
