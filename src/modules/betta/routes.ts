@@ -31,13 +31,14 @@ bettaRoute.post("/", zValidator("json", BettaSchemaInput), (c) => {
   const updatedWildBettas = [...wildBettas, newWildBetta];
   dataWildBettas = updatedWildBettas;
 
-  return c.json(updatedWildBettas, 201);
+  return c.json(newWildBetta, 201);
 });
 
 // Delete Data
 bettaRoute.delete("/:slug", (c) => {
   try {
     const name = c.req.param("slug").toLowerCase();
+
     const updatedBettas = dataWildBettas.filter((betta) => betta.slug !== name);
 
     dataWildBettas = updatedBettas;
