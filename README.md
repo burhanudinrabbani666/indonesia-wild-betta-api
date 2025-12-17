@@ -11,11 +11,11 @@ This API contains information about Indonesian wild betta fish, along with photo
 - Local: `http://localhost:3000`
 - Production: `https://indonesiawildbetta.burhanudin.com`
 
-| Endpoint       | HTTP     | Description         | status |
-| -------------- | -------- | ------------------- | ------ |
-| `/items`       | `GET`    | Get all items       | ✅     |
-| `/items/:slug` | `GET`    | Get item by slug    | ✅     |
-| `/item`        | `POST`   | Add new item        | ✅     |
-| `/item/:slug`  | `DELETE` | Delete item by slug | ✅     |
-| `/items/{id}`  | `PATCH`  | Patch item by name  |        |
-| `/items/{id}`  | `PUT`    | Update item by id   |        |
+| Endpoint        | HTTP     | Description          | status |
+| --------------- | -------- | -------------------- | ------ |
+| `/bettas`       | `GET`    | Get all Bettas       | ✅     |
+| `/bettas/:slug` | `GET`    | Get Betta by slug    | ✅     |
+| `/betta`        | `POST`   | Add new Betta        | ✅     |
+| `/betta/:slug`  | `DELETE` | Delete Betts by slug | ✅     |
+| `/bettas/{id}`  | `PATCH`  | Patch Betts by name  |        |
+| `/bettas/{id}`  | `PUT`    | Update Betts by id   |        |

@@ -1,4 +1,3 @@
-import { randomUUIDv7 } from "bun";
 import { type Bettas } from "../type/schema";
 
 export let dataBettas: Bettas = [
