@@ -1,7 +1,10 @@
 import { randomUUIDv7 } from "bun";
-import { z } from "zod";
+import { tuple, z } from "zod";
 
-export const BettaSchemaInput = z.object({
+export const BettaSchema = z.object({
+  id: z.string(),
+  slug: z.string(),
+
   name: z.string(),
   location: z.object({
     river: z.string().nullable(),
@@ -16,20 +19,25 @@ export const BettaSchemaInput = z.object({
     "Bubble Nester Large",
     "Bubble Nester Small",
   ]),
-});
 
-export const BettaSchema = BettaSchemaInput.extend({
-  id: z.string(),
-  slug: z.string(),
   createdAt: z.date(),
   updateAt: z.date(),
 });
 
-export type BettaInput = z.infer<typeof BettaSchemaInput>;
+export const createBettaSchema = BettaSchema.pick({
+  name: true,
+  location: true,
+  phWater: true,
+  complex: true,
+  category: true,
+});
+
 export type Betta = z.infer<typeof BettaSchema>;
 export type Bettas = Betta[];
 
-export class WildBetta {
+export type createBetta = z.infer<typeof createBettaSchema>;
+
+export class BettaClass {
   id: string;
   name: string;
   slug: string;

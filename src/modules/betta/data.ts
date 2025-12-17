@@ -1,9 +1,9 @@
 import { randomUUIDv7 } from "bun";
 import { type Bettas } from "../type/schema";
 
-export let wildBettas: Bettas = [
+export let dataBettas: Bettas = [
   {
-    id: randomUUIDv7(),
+    id: "019b29c6-99cd-7d51-b9b4-60ca0db8b231",
     name: "Betta Channoides",
     slug: "betta-channoides",
     location: {
@@ -18,7 +18,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b29c7-429a-7237-90a0-850ff25610b9",
     name: "Betta Albimarginata",
     slug: "betta-albimarginata",
     location: { river: "Sebuku", city: "nunukan", province: "East Kalimantan" },
@@ -29,7 +29,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b29c7-722a-797a-b047-f99a18b3dd79",
     name: "Betta Hendra",
     slug: "betta-hendra",
     location: { river: "Sabangau", city: null, province: "Central Kalimantan" },
@@ -40,7 +40,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b29c7-ad13-7958-9ede-a245b58234aa",
     name: "Betta brownorum",
     slug: "betta-brownorum",
     location: { river: null, city: null, province: "Kalimantan" },
@@ -51,7 +51,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b29c7-e9a5-7a52-917f-4452561af67a",
     name: "Betta Bellica",
     slug: "betta-bellica",
     location: { river: null, city: null, province: "East Sumatra" },
@@ -62,7 +62,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b29c8-1155-72be-a6b4-476f37bf2cef",
     name: "Betta Simorum",
     slug: "betta-simorum",
     location: { river: "Kapuas", city: "Jambi", province: "west Kalimantan" },
@@ -73,7 +73,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b29c8-37d5-7a60-97f4-716486d80dd3",
     name: "Betta Antuta",
     slug: "betta-antuta",
     location: { river: null, city: "Bulungan", province: "East Kalimantan" },
@@ -84,7 +84,7 @@ export let wildBettas: Bettas = [
     updateAt: new Date(),
   },
   {
-    id: randomUUIDv7(),
+    id: "019b29c8-5bde-774b-93cd-c8d288ea7ae2",
     name: "Betta Renata",
     slug: "betta-renata",
     location: {
