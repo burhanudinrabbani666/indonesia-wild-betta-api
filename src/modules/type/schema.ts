@@ -1,5 +1,5 @@
 import { randomUUIDv7 } from "bun";
-import { tuple, z } from "zod";
+import { z } from "zod";
 
 export const BettaSchema = z.object({
   id: z.string(),
