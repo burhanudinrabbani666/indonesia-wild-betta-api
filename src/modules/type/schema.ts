@@ -32,10 +32,18 @@ export const createBettaSchema = BettaSchema.pick({
   category: true,
 });
 
+export const updateBetta = BettaSchema.pick({
+  name: true,
+  location: true,
+  phWater: true,
+  complex: true,
+  category: true,
+});
 export type Betta = z.infer<typeof BettaSchema>;
 export type Bettas = Betta[];
 
 export type createBetta = z.infer<typeof createBettaSchema>;
+export type updateBetta = z.infer<typeof updateBetta>;
 
 export class BettaClass {
   id: string;
