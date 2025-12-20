@@ -31,6 +31,32 @@ bettaRoute.get("/:slug", (c) => {
   return c.json(betta);
 });
 
+// Get one Betta by ID
+bettaRoute.get("/id/:id", (c) => {
+  const id = c.req.param("id");
+  const betta = bettas.find((betta) => betta.id === id);
+
+  if (!betta) {
+    return c.json({
+      message: "Not Found Betta",
+    });
+  }
+
+  return c.json(betta);
+});
+
+//Get by complex
+bettaRoute.get("/complex/:complex", (c) => {
+  const complex = c.req.param("complex").toLowerCase();
+  const betta = bettas.filter((betta) => betta.complex === complex);
+
+  if (!betta) {
+    return c.notFound();
+  }
+
+  return c.json(betta);
+});
+
 // Add new Data
 bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
   const body: createBetta = c.req.valid("json");
