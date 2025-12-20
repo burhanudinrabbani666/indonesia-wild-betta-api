@@ -81,3 +81,27 @@ bettaRoute.patch(
     });
   }
 );
+
+bettaRoute.put("/:id", zValidator("json", updateBetta), async (c) => {
+  const id = c.req.param("id");
+  const body: updateBetta = await c.req.json();
+  const betta = bettas.find((betta) => betta.id === id);
+
+  if (!betta) return c.json({ message: "Betta not found" });
+
+  const newBettaData = {
+    id: id,
+    slug: body.name.toLocaleLowerCase().trim().split(" ").join("-"),
+    ...body,
+    createdAt: betta.createdAt,
+    updateAt: new Date(),
+  };
+
+  bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
+
+  return c.json({
+    message: "Betta Has been Updates",
+    newBettaData: newBettaData,
+    oldBettaData: betta,
+  });
+});
