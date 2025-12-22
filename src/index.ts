@@ -8,5 +8,6 @@ const app = new Hono();
 app.use(logger());
 app.route("/", commonRoute);
 app.route("/bettas", bettaRoute);
+app.route("/complexes", complexRoute); // TODO
 
 export default app;

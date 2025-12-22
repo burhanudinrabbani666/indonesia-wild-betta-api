@@ -1,4 +1,3 @@
-import { randomUUIDv7 } from "bun";
 import { z } from "zod";
 
 const BettaSchemaLocation = z.object({
@@ -23,7 +22,7 @@ export const BettaSchema = z.object({
   ]),
 
   createdAt: z.date(),
-  updateAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const createBettaSchema = BettaSchema.pick({
@@ -55,41 +54,3 @@ export type Bettas = Betta[];
 
 export type createBetta = z.infer<typeof createBettaSchema>;
 export type updateBetta = z.infer<typeof UpdateBettaSchema>;
-
-export class BettaClass {
-  id: string;
-  name: string;
-  slug: string;
-  location: {
-    river: string | null;
-    city: string | null;
-    province: string | null;
-  };
-  phWater: string | null;
-  complex: string | null;
-  category: string;
-  createdAt: Date;
-  updateAt: Date;
-
-  constructor(payload: {
-    name: string;
-    location: {
-      river: string | null;
-      city: string | null;
-      province: string | null;
-    };
-    phWater: string | null;
-    complex: string | null;
-    category: string;
-  }) {
-    this.id = randomUUIDv7();
-    this.name = payload.name;
-    this.slug = this.name.toLocaleLowerCase().trim().split(" ").join("-");
-    this.location = payload.location;
-    this.phWater = payload.phWater;
-    this.complex = payload.complex;
-    this.category = payload.category;
-    this.createdAt = new Date();
-    this.updateAt = new Date();
-  }
-}

@@ -4,15 +4,13 @@ import { dataBettas } from "./data";
 import {
   createBetta,
   createBettaSchema,
-  BettaClass,
-  BettaSchema,
   Betta,
-  updateBetta,
   UpdateBettaSchema,
-} from "../type/schema";
+  BettaSchema,
+} from "./schema";
 export const bettaRoute = new Hono();
 
-let bettas: BettaClass[] = dataBettas;
+let bettas: Betta[] = dataBettas;
 
 // get all bettas
 bettaRoute.get("/", (c) => {
@@ -32,37 +30,11 @@ bettaRoute.get("/:slug", (c) => {
   return c.json(betta);
 });
 
-// Get one Betta by ID
-bettaRoute.get("/id/:id", (c) => {
-  const id = c.req.param("id");
-  const betta = bettas.find((betta) => betta.id === id);
-
-  if (!betta) {
-    return c.json({
-      message: "Not Found Betta",
-    });
-  }
-
-  return c.json(betta);
-});
-
-//Get by complex
-bettaRoute.get("/complex/:complex", (c) => {
-  const complex = c.req.param("complex").toLowerCase();
-  const betta = bettas.filter((betta) => betta.complex === complex);
-
-  if (!betta) {
-    return c.notFound();
-  }
-
-  return c.json(betta);
-});
-
 // Add new Data
 bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
   const body: createBetta = c.req.valid("json");
 
-  const newBetta = new BettaClass(body);
+  const newBetta = BettaSchema.parse(body);
 
   bettas = [...dataBettas, newBetta];
 
@@ -77,12 +49,13 @@ bettaRoute.delete("/:id", (c) => {
   if (!checkId) return c.json({ message: "Wrong ID" });
 
   const updatedBettas = bettas.filter((betta) => betta.id !== id);
-  const deletedBetta = bettas.filter((betta) => betta.id == id);
+  const deletedBetta = bettas.find((betta) => betta.id == id);
 
   bettas = updatedBettas;
+
   return c.json({
-    message: "Bettas has been deleted",
-    deletedBetta: deletedBetta,
+    message: "Betta has been deleted",
+    data: deletedBetta,
   });
 });
 
@@ -97,7 +70,7 @@ bettaRoute.patch(
 
     if (!betta) return c.json({ message: "Betta not found" });
 
-    const newBettaData = {
+    const updatedBetta = {
       ...betta,
       ...body,
       location: body.location
@@ -106,13 +79,9 @@ bettaRoute.patch(
       updateAt: new Date(),
     };
 
-    bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
+    bettas = bettas.map((betta) => (betta.id === id ? updatedBetta : betta));
 
-    return c.json({
-      message: "Betta Has been Updates",
-      newBettaData: newBettaData,
-      oldBettaData: betta,
-    });
+    return c.json(updatedBetta);
   }
 );
 
@@ -121,7 +90,10 @@ bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
   const body = await c.req.json();
   const betta = bettas.find((betta) => betta.id === id);
 
-  if (!betta) return c.json({ message: "Betta not found" });
+  if (!betta) {
+    // TODO: With PUT method, create new betta if not found
+    return c.json({ message: "Betta not found" });
+  }
 
   const newBettaData = {
     id: id,
@@ -133,9 +105,5 @@ bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
 
   bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
 
-  return c.json({
-    message: "Betta Has been Updates",
-    newBettaData: newBettaData,
-    oldBettaData: betta,
-  });
+  return c.json(newBettaData);
 });
