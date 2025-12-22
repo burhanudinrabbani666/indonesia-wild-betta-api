@@ -8,6 +8,7 @@ import {
   BettaSchema,
   Betta,
   updateBetta,
+  UpdateBettaSchema,
 } from "../type/schema";
 export const bettaRoute = new Hono();
 
@@ -88,7 +89,7 @@ bettaRoute.delete("/:id", (c) => {
 // Update Data
 bettaRoute.patch(
   "/:id",
-  zValidator("json", updateBetta.partial()),
+  zValidator("json", UpdateBettaSchema.partial()),
   async (c) => {
     const id = c.req.param("id");
     const body: Betta = await c.req.json();
@@ -96,7 +97,14 @@ bettaRoute.patch(
 
     if (!betta) return c.json({ message: "Betta not found" });
 
-    const newBettaData = { ...betta, ...body, updateAt: new Date() };
+    const newBettaData = {
+      ...betta,
+      ...body,
+      location: body.location
+        ? { ...betta.location, ...body.location }
+        : { ...betta.location },
+      updateAt: new Date(),
+    };
 
     bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
 
@@ -108,9 +116,9 @@ bettaRoute.patch(
   }
 );
 
-bettaRoute.put("/:id", zValidator("json", updateBetta), async (c) => {
+bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
   const id = c.req.param("id");
-  const body: updateBetta = await c.req.json();
+  const body = await c.req.json();
   const betta = bettas.find((betta) => betta.id === id);
 
   if (!betta) return c.json({ message: "Betta not found" });
