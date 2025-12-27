@@ -6,11 +6,10 @@ import {
   BettaClass,
   BettaSchema,
   Betta,
-  updateBetta,
   UpdateBettaSchema,
   GetBettaBySlug,
   GetBettaById,
-} from "../type/schema";
+} from "./schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
 //
@@ -93,18 +92,6 @@ bettaRoute.openapi(
   }
 );
 
-//Get by complex
-complexRoute.get("/:complex", (c) => {
-  const complex = c.req.param("complex").toLowerCase();
-  const betta = bettas.filter((betta) => betta.complex === complex);
-
-  if (!betta) {
-    return c.notFound();
-  }
-
-  return c.json(betta);
-});
-
 // Add new Data
 bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
   const body: createBetta = c.req.valid("json");
@@ -129,7 +116,7 @@ bettaRoute.delete("/:id", (c) => {
   bettas = updatedBettas;
   return c.json({
     message: "Bettas has been deleted",
-    deletedBetta: deletedBetta,
+    data: deletedBetta,
   });
 });
 
@@ -157,8 +144,7 @@ bettaRoute.patch(
 
     return c.json({
       message: "Betta Has been Updates",
-      newBettaData: newBettaData,
-      oldBettaData: betta,
+      data: newBettaData,
     });
   }
 );
@@ -168,7 +154,16 @@ bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
   const body = await c.req.json();
   const betta = bettas.find((betta) => betta.id === id);
 
-  if (!betta) return c.json({ message: "Betta not found" });
+  if (!betta) {
+    const newBetta = new BettaClass(body);
+
+    bettas = [...bettas, newBetta];
+
+    return c.json({
+      message: "id not found in old data, adding new data",
+      data: newBetta,
+    });
+  }
 
   const newBettaData = {
     id: id,
@@ -185,4 +180,16 @@ bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
     newBettaData: newBettaData,
     oldBettaData: betta,
   });
+});
+
+//Get by complex
+complexRoute.get("/:complex", (c) => {
+  const complex = c.req.param("complex").toLowerCase();
+  const betta = bettas.filter((betta) => betta.complex === complex);
+
+  if (!betta) {
+    return c.notFound();
+  }
+
+  return c.json(betta);
 });

@@ -1,6 +1,6 @@
 services:
   backend:
-    image: indonesia-wildbetta-api # Remember to change the image name
+    image: indonesia-wildbetta-api
     build:
       context: .
     ports:

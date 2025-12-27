@@ -1,4 +1,4 @@
-import { type Bettas } from "../type/schema";
+import { type Bettas } from "./schema";
 
 export let dataBettas: Bettas = [
   {
@@ -14,7 +14,7 @@ export let dataBettas: Bettas = [
     complex: null,
     category: "Mouth Brooder Small",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: "019b29c7-429a-7237-90a0-850ff25610b9",
@@ -25,7 +25,7 @@ export let dataBettas: Bettas = [
     complex: null,
     category: "Mouth Brooder Large",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: "019b29c7-722a-797a-b047-f99a18b3dd79",
@@ -36,7 +36,7 @@ export let dataBettas: Bettas = [
     complex: "coccina",
     category: "Bubble Nester Small",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: "019b29c7-ad13-7958-9ede-a245b58234aa",
@@ -47,7 +47,7 @@ export let dataBettas: Bettas = [
     complex: "coccina",
     category: "Bubble Nester Small",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: "019b29c7-e9a5-7a52-917f-4452561af67a",
@@ -58,7 +58,7 @@ export let dataBettas: Bettas = [
     complex: null,
     category: "Bubble Nester Large",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: "019b29c8-1155-72be-a6b4-476f37bf2cef",
@@ -69,7 +69,7 @@ export let dataBettas: Bettas = [
     complex: null,
     category: "Bubble Nester Large",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: "019b29c8-37d5-7a60-97f4-716486d80dd3",
@@ -80,7 +80,7 @@ export let dataBettas: Bettas = [
     complex: null,
     category: "Mouth Brooder Large",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: "019b29c8-5bde-774b-93cd-c8d288ea7ae2",
@@ -95,6 +95,6 @@ export let dataBettas: Bettas = [
     complex: null,
     category: "Bubble Nester Small",
     createdAt: new Date(),
-    updateAt: new Date(),
+    updatedAt: new Date(),
   },
 ];

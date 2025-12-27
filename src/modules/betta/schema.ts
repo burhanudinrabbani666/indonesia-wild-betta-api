@@ -1,6 +1,5 @@
 import { randomUUIDv7 } from "bun";
 import { z } from "zod";
-import { id } from "zod/v4/locales";
 
 export const GetBettaBySlug = z.object({
   slug: z.string(),
@@ -32,7 +31,7 @@ export const BettaSchema = z.object({
   ]),
 
   createdAt: z.date(),
-  updateAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const createBettaSchema = BettaSchema.pick({
@@ -78,7 +77,7 @@ export class BettaClass {
   complex: string | null;
   category: string;
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
 
   constructor(payload: {
     name: string;
@@ -99,6 +98,6 @@ export class BettaClass {
     this.complex = payload.complex;
     this.category = payload.category;
     this.createdAt = new Date();
-    this.updateAt = new Date();
+    this.updatedAt = new Date();
   }
 }
