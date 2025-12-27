@@ -1,5 +1,14 @@
 import { randomUUIDv7 } from "bun";
 import { z } from "zod";
+import { id } from "zod/v4/locales";
+
+export const GetBettaBySlug = z.object({
+  slug: z.string(),
+});
+
+export const GetBettaById = z.object({
+  id: z.string(),
+});
 
 const BettaSchemaLocation = z.object({
   river: z.string().nullable(),

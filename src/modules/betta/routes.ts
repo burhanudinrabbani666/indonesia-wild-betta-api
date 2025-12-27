@@ -9,44 +9,88 @@ import {
   Betta,
   updateBetta,
   UpdateBettaSchema,
+  GetBettaBySlug,
+  GetBettaById,
 } from "../type/schema";
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { OpenAPIHono, z } from "@hono/zod-openapi";
 
 //
 export const bettaRoute = new OpenAPIHono();
 let bettas: BettaClass[] = dataBettas;
 
 // get all bettas
-bettaRoute.get("/", (c) => {
-  return c.json(bettas);
-});
+bettaRoute.openapi(
+  {
+    method: "get",
+    path: "/",
+    description: "Get all bettas",
+    responses: {
+      200: {
+        description: "Successfully get all bettas",
+      },
+    },
+  },
+  (c) => {
+    return c.json(bettas);
+  }
+);
 
 // Get one betta By Slug
-bettaRoute.get("/:slug", (c) => {
-  const slug = c.req.param("slug");
+bettaRoute.openapi(
+  {
+    method: "get",
+    path: "/:slug",
+    description: "Get One Betta by slug",
+    request: {
+      params: GetBettaBySlug,
+    },
+    responses: {
+      200: {
+        description: "Succesfully get Betta",
+      },
+      400: {
+        description: "Betta not found",
+      },
+    },
+  },
+  (c) => {
+    const slug = c.req.param("slug");
+    const betta = bettas.find((betta) => betta.slug === slug);
 
-  const betta = bettas.find((betta) => betta.slug === slug);
+    if (!betta) return c.json("Betta Not Found", 400);
 
-  if (!betta) {
-    return c.notFound();
+    return c.json(betta, 200);
   }
-
-  return c.json(betta);
-});
+);
 
 // Get one Betta by ID
-bettaRoute.get("/id/:id", (c) => {
-  const id = c.req.param("id");
-  const betta = bettas.find((betta) => betta.id === id);
+bettaRoute.openapi(
+  {
+    method: "get",
+    path: "/id/:id",
+    description: "Get Betta by ID",
+    request: {
+      params: GetBettaById,
+    },
+    responses: {
+      200: {
+        description: "Succesfully get Betta",
+        content: { "application/json": { schema: BettaSchema } },
+      },
+      400: {
+        description: "Betta not found",
+      },
+    },
+  },
+  (c) => {
+    const id = c.req.param("id");
+    const betta = bettas.find((betta) => betta.id === id);
 
-  if (!betta) {
-    return c.json({
-      message: "Not Found Betta",
-    });
+    if (!betta) return c.json("Betta Not Found", 400);
+
+    return c.json(betta, 200);
   }
-
-  return c.json(betta);
-});
+);
 
 //Get by complex
 bettaRoute.get("/complex/:complex", (c) => {
