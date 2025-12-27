@@ -10,8 +10,10 @@ import {
   updateBetta,
   UpdateBettaSchema,
 } from "../type/schema";
-export const bettaRoute = new Hono();
+import { OpenAPIHono } from "@hono/zod-openapi";
 
+//
+export const bettaRoute = new OpenAPIHono();
 let bettas: BettaClass[] = dataBettas;
 
 // get all bettas
