@@ -1,4 +1,3 @@
-import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { dataBettas } from "./data";
 import {
@@ -12,10 +11,12 @@ import {
   GetBettaBySlug,
   GetBettaById,
 } from "../type/schema";
-import { OpenAPIHono, z } from "@hono/zod-openapi";
+import { OpenAPIHono } from "@hono/zod-openapi";
 
 //
 export const bettaRoute = new OpenAPIHono();
+export const complexRoute = new OpenAPIHono();
+
 let bettas: BettaClass[] = dataBettas;
 
 // get all bettas
@@ -93,7 +94,7 @@ bettaRoute.openapi(
 );
 
 //Get by complex
-bettaRoute.get("/complex/:complex", (c) => {
+complexRoute.get("/:complex", (c) => {
   const complex = c.req.param("complex").toLowerCase();
   const betta = bettas.filter((betta) => betta.complex === complex);
 

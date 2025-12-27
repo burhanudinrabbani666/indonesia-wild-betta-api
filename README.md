@@ -19,3 +19,7 @@ This API contains information about Indonesian wild betta fish, along with photo
 | `/betta/:slug`  | `DELETE` | Delete Betts by slug | ✅     |
 | `/bettas/{id}`  | `PATCH`  | Patch Betts by name  |        |
 | `/bettas/{id}`  | `PUT`    | Update Betts by id   |        |
+
+## Entity Relationship Diagram (ERD)
+
+![database diagram](./public/img/db-diagram.png)
