@@ -1,17 +1,12 @@
 import { logger } from "hono/logger";
-import { bettaRoute, complexRoute } from "./modules/betta/routes";
-import { commonRoute } from "./modules/common/route";
+import { bettaRoute } from "./modules/betta/routes";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 
 const app = new OpenAPIHono();
 
 app.use(logger());
-// app.route("/", commonRoute);
 app.route("/bettas", bettaRoute);
-app.route("/complex", complexRoute);
-
-// API Docs
 app.doc("/openapi.json", {
   openapi: "3.0.0",
   info: {

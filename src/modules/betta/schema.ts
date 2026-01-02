@@ -1,31 +1,5 @@
 import { randomUUIDv7 } from "bun";
 import { z } from "@hono/zod-openapi";
-import { tr } from "zod/v4/locales";
-
-/*
-
-import { z } from '@hono/zod-openapi'
-
-const ParamsSchema = z.object({
-  id: z
-    .string()
-    .min(3)
-    .openapi({
-      param: {
-        name: 'id',
-        in: 'path',
-      },
-      example: '1212121',
-    }),
-})
-
-Sabangau
-katingan
-Central Kalimantan
-4,0 - 6,5
-coccina
-Bubble Nester Small
-*/
 
 const BettaSchemaLocation = z.object({
   river: z.string().nullable().openapi({
@@ -65,7 +39,9 @@ export const BettaSchema = z.object({
       "Bubble Nester Small",
     ])
     .openapi({
-      example: "Bubble Nester Small",
+      description: "Pick One",
+      example:
+        "Bubble Nester Large || Bubble Nester Small || Mouth Brooder Large || Mouth Brooder Small ",
     }),
 
   createdAt: z.date(),

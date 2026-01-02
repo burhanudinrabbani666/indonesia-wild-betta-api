@@ -143,45 +143,17 @@ bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
   return c.json(newBetta, 201);
 });
 
-// Update Data
-bettaRoute.patch(
-  "/:id",
-  zValidator("json", UpdateBettaSchema.partial()),
-  async (c) => {
-    const id = c.req.param("id");
-    const body: Betta = await c.req.json();
-    const betta = bettas.find((betta) => betta.id === id);
-
-    if (!betta) return c.json({ message: "Betta not found" });
-
-    const newBettaData = {
-      ...betta,
-      ...body,
-      location: body.location
-        ? { ...betta.location, ...body.location }
-        : { ...betta.location },
-      updateAt: new Date(),
-    };
-
-    bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
-
-    return c.json({
-      message: "Betta Has been Updates",
-      data: newBettaData,
-    });
-  }
-);
-
+// Update Bettas by d
 bettaRoute.openapi(
   {
     method: "patch",
-    path: "/id/:id",
+    path: "/:id",
     description: "Patch betta by ID",
     request: {
       params: GetBettaById,
       body: {
         content: {
-          "application/json": { schema: createBettaSchema },
+          "application/json": { schema: createBettaSchema.partial() },
         },
       },
     },
@@ -221,6 +193,66 @@ bettaRoute.openapi(
   }
 );
 
+// Put Betta by id
+
+bettaRoute.openapi(
+  {
+    method: "put",
+    path: "/:id",
+    description: "Edit data Betta by ID",
+    request: {
+      params: GetBettaById,
+      body: {
+        content: {
+          "application/json": { schema: createBettaSchema },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Succesfully get Betta",
+        content: { "application/json": { schema: BettaSchema } },
+      },
+      400: {
+        description: "Betta not found",
+      },
+    },
+  },
+  async (c) => {
+    const id = c.req.param("id");
+    const body = await c.req.json();
+    const betta = bettas.find((betta) => betta.id === id);
+
+    if (!betta) {
+      const newBetta = new BettaClass(body);
+
+      bettas = [...bettas, newBetta];
+
+      return c.json({
+        message: "id not found in old data, adding new data",
+        data: newBetta,
+        old: betta,
+      });
+    }
+
+    const newBettaData = {
+      id: id,
+      slug: body.name.toLocaleLowerCase().trim().split(" ").join("-"),
+      ...body,
+      createdAt: betta.createdAt,
+      updateAt: new Date(),
+    };
+
+    bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
+
+    return c.json({
+      message: "Betta Has been Updates",
+      newBettaData: newBettaData,
+      oldBettaData: betta,
+    });
+  }
+);
+
 bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
   const id = c.req.param("id");
   const body = await c.req.json();
@@ -256,32 +288,37 @@ bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
 });
 
 // Error
-complexRoute.openapi(
+bettaRoute.openapi(
   {
     method: "get",
-    path: "/:complex",
-    description: "Get Betta by complex",
+    path: "/complex/{complex}", // OpenAPI syntax
     request: {
       params: GetBettaByComplex,
     },
     responses: {
       200: {
-        description: "Succesfully get Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        description: "OK",
+        content: {
+          "application/json": { schema: BettaSchema },
+        },
       },
-      400: {
-        description: "Betta not found",
+      404: {
+        description: "Not found",
       },
     },
   },
   (c) => {
-    const complex = c.req.param("complex");
-    const betta = bettas.find(
-      (betta) => betta.complex === complex?.toLowerCase()
-    );
+    const complexParam = c.req.param("complex");
+    if (!complexParam) {
+      return c.json({ message: "complex is required" }, 400);
+    }
+
+    const complex = complexParam.toLowerCase();
+
+    const betta = dataBettas.find((b) => b.complex === complex);
 
     if (!betta) {
-      return c.json(complex);
+      return c.json({ message: "Not found" }, 404);
     }
 
     return c.json(betta);
