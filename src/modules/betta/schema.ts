@@ -1,37 +1,75 @@
 import { randomUUIDv7 } from "bun";
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 
-export const GetBettaBySlug = z.object({
-  slug: z.string(),
-});
+/*
 
-export const GetBettaById = z.object({
-  id: z.string(),
-});
+import { z } from '@hono/zod-openapi'
+
+const ParamsSchema = z.object({
+  id: z
+    .string()
+    .min(3)
+    .openapi({
+      param: {
+        name: 'id',
+        in: 'path',
+      },
+      example: '1212121',
+    }),
+})
+*/
 
 const BettaSchemaLocation = z.object({
-  river: z.string().nullable(),
-  city: z.string().nullable(),
-  province: z.string().nullable(),
+  river: z.string().nullable().openapi({
+    example: "Sungai Mahakam",
+  }),
+  city: z.string().nullable().openapi({
+    example: "Pampang",
+  }),
+  province: z.string().nullable().openapi({
+    example: "East Kalimanta",
+  }),
 });
 
 export const BettaSchema = z.object({
-  id: z.string(),
-  slug: z.string(),
+  id: z.string().openapi({
+    example: "019b29c6-99cd-7d51-b9b4-60ca0db8b231",
+  }),
+  slug: z.string().openapi({
+    example: "betta-channoides",
+  }),
 
-  name: z.string(),
+  name: z.string().openapi({
+    example: "Betta Channoides",
+  }),
   location: BettaSchemaLocation,
-  phWater: z.string().nullable(),
-  complex: z.string().nullable(),
-  category: z.enum([
-    "Mouth Brooder Large",
-    "Mouth Brooder Small",
-    "Bubble Nester Large",
-    "Bubble Nester Small",
-  ]),
+  phWater: z.string().nullable().openapi({
+    example: "4,0-6,5",
+  }),
+  complex: z.string().nullable().openapi({
+    example: null,
+  }),
+  category: z
+    .enum([
+      "Mouth Brooder Large",
+      "Mouth Brooder Small",
+      "Bubble Nester Large",
+      "Bubble Nester Small",
+    ])
+    .openapi({
+      example: "Mouth Brooder Small",
+    }),
 
   createdAt: z.date(),
   updatedAt: z.date(),
+});
+
+export const GetBettaBySlug = BettaSchema.pick({
+  slug: true,
+});
+
+export const GetBettaById = BettaSchema.pick({
+  id: true,
 });
 
 export const createBettaSchema = BettaSchema.pick({
@@ -42,20 +80,12 @@ export const createBettaSchema = BettaSchema.pick({
   category: true,
 });
 
-export const UpdateBettaSchema = z.object({
-  name: z.string(),
-  phWater: z.string().nullable().optional(),
-  complex: z.string().nullable().optional(),
-  category: z
-    .enum([
-      "Mouth Brooder Large",
-      "Mouth Brooder Small",
-      "Bubble Nester Large",
-      "Bubble Nester Small",
-    ])
-    .optional(),
-
-  location: BettaSchemaLocation.partial().optional(),
+export const UpdateBettaSchema = BettaSchema.pick({
+  name: true,
+  location: true,
+  phWater: true,
+  complex: true,
+  category: true,
 });
 
 export type Betta = z.infer<typeof BettaSchema>;

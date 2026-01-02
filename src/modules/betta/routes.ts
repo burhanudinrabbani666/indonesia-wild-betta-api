@@ -95,7 +95,6 @@ bettaRoute.openapi(
 // Add new Data
 bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
   const body: createBetta = c.req.valid("json");
-
   const newBetta = new BettaClass(body);
 
   bettas = [...dataBettas, newBetta];
