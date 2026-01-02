@@ -1,5 +1,6 @@
 import { randomUUIDv7 } from "bun";
 import { z } from "@hono/zod-openapi";
+import { tr } from "zod/v4/locales";
 
 /*
 
@@ -17,6 +18,13 @@ const ParamsSchema = z.object({
       example: '1212121',
     }),
 })
+
+Sabangau
+katingan
+Central Kalimantan
+4,0 - 6,5
+coccina
+Bubble Nester Small
 */
 
 const BettaSchemaLocation = z.object({
@@ -24,30 +32,30 @@ const BettaSchemaLocation = z.object({
     example: "Sungai Mahakam",
   }),
   city: z.string().nullable().openapi({
-    example: "Pampang",
+    example: "katingan",
   }),
   province: z.string().nullable().openapi({
-    example: "East Kalimanta",
+    example: "Central Kalimantan",
   }),
 });
 
 export const BettaSchema = z.object({
   id: z.string().openapi({
-    example: "019b29c6-99cd-7d51-b9b4-60ca0db8b231",
+    example: "019b29c7-722a-797a-b047-f99a18b3dd79",
   }),
   slug: z.string().openapi({
-    example: "betta-channoides",
+    example: "betta-hendra",
   }),
 
   name: z.string().openapi({
-    example: "Betta Channoides",
+    example: "Betta Hendra",
   }),
   location: BettaSchemaLocation,
   phWater: z.string().nullable().openapi({
-    example: "4,0-6,5",
+    example: "4,0 - 6,5",
   }),
   complex: z.string().nullable().openapi({
-    example: null,
+    example: "coccina",
   }),
   category: z
     .enum([
@@ -57,7 +65,7 @@ export const BettaSchema = z.object({
       "Bubble Nester Small",
     ])
     .openapi({
-      example: "Mouth Brooder Small",
+      example: "Bubble Nester Small",
     }),
 
   createdAt: z.date(),
@@ -70,6 +78,10 @@ export const GetBettaBySlug = BettaSchema.pick({
 
 export const GetBettaById = BettaSchema.pick({
   id: true,
+});
+
+export const GetBettaByComplex = BettaSchema.pick({
+  complex: true,
 });
 
 export const createBettaSchema = BettaSchema.pick({

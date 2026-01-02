@@ -9,6 +9,7 @@ import {
   UpdateBettaSchema,
   GetBettaBySlug,
   GetBettaById,
+  GetBettaByComplex,
 } from "./schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
@@ -93,6 +94,7 @@ bettaRoute.openapi(
   }
 );
 
+// Delete Betta by id
 bettaRoute.openapi(
   {
     method: "delete",
@@ -130,23 +132,6 @@ bettaRoute.openapi(
     });
   }
 );
-
-// Delete Data by id
-// bettaRoute.delete("/:id", (c) => {
-//   const id = c.req.param("id").toLowerCase();
-
-//   const checkId = bettas.find((betta) => betta.id === id);
-//   if (!checkId) return c.json({ message: "Wrong ID" });
-
-//   const updatedBettas = bettas.filter((betta) => betta.id !== id);
-//   const deletedBetta = bettas.filter((betta) => betta.id == id);
-
-//   bettas = updatedBettas;
-//   return c.json({
-//     message: "Bettas has been deleted",
-//     data: deletedBetta,
-//   });
-// });
 
 // Add new Data
 bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
@@ -187,6 +172,55 @@ bettaRoute.patch(
   }
 );
 
+bettaRoute.openapi(
+  {
+    method: "patch",
+    path: "/id/:id",
+    description: "Patch betta by ID",
+    request: {
+      params: GetBettaById,
+      body: {
+        content: {
+          "application/json": { schema: createBettaSchema },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Succesfully get Betta",
+        content: { "application/json": { schema: BettaSchema } },
+      },
+      400: {
+        description: "Betta not found",
+      },
+    },
+  },
+  async (c) => {
+    const id = c.req.param("id");
+    const body: Betta = await c.req.json();
+    const betta = bettas.find((betta) => betta.id === id);
+
+    if (!betta) return c.json({ message: "Betta not found" });
+
+    const newBettaData = {
+      ...betta,
+      ...body,
+      location: body.location
+        ? { ...betta.location, ...body.location }
+        : { ...betta.location },
+      updateAt: new Date(),
+    };
+
+    bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
+
+    return c.json({
+      message: "Betta Has been Updates",
+      data: newBettaData,
+      old: betta,
+    });
+  }
+);
+
 bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
   const id = c.req.param("id");
   const body = await c.req.json();
@@ -200,6 +234,7 @@ bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
     return c.json({
       message: "id not found in old data, adding new data",
       data: newBetta,
+      old: betta,
     });
   }
 
@@ -220,14 +255,35 @@ bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
   });
 });
 
-//Get by complex
-complexRoute.get("/:complex", (c) => {
-  const complex = c.req.param("complex").toLowerCase();
-  const betta = bettas.filter((betta) => betta.complex === complex);
+// Error
+complexRoute.openapi(
+  {
+    method: "get",
+    path: "/:complex",
+    description: "Get Betta by complex",
+    request: {
+      params: GetBettaByComplex,
+    },
+    responses: {
+      200: {
+        description: "Succesfully get Betta",
+        content: { "application/json": { schema: BettaSchema } },
+      },
+      400: {
+        description: "Betta not found",
+      },
+    },
+  },
+  (c) => {
+    const complex = c.req.param("complex");
+    const betta = bettas.find(
+      (betta) => betta.complex === complex?.toLowerCase()
+    );
 
-  if (!betta) {
-    return c.notFound();
+    if (!betta) {
+      return c.json(complex);
+    }
+
+    return c.json(betta);
   }
-
-  return c.json(betta);
-});
+);

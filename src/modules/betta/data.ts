@@ -31,7 +31,11 @@ export let dataBettas: Bettas = [
     id: "019b29c7-722a-797a-b047-f99a18b3dd79",
     name: "Betta Hendra",
     slug: "betta-hendra",
-    location: { river: "Sabangau", city: null, province: "Central Kalimantan" },
+    location: {
+      river: "Sabangau",
+      city: "katingan",
+      province: "Central Kalimantan",
+    },
     phWater: "4,0 - 6,5",
     complex: "coccina",
     category: "Bubble Nester Small",
