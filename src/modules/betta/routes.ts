@@ -47,6 +47,7 @@ bettaRoute.openapi(
     responses: {
       200: {
         description: "Succesfully get Betta",
+        content: { "application/json": { schema: BettaSchema } },
       },
       400: {
         description: "Betta not found",
@@ -92,6 +93,61 @@ bettaRoute.openapi(
   }
 );
 
+bettaRoute.openapi(
+  {
+    method: "delete",
+    path: "/:id",
+    description: "Delete Betta by id",
+    request: {
+      params: GetBettaById,
+    },
+    responses: {
+      200: {
+        description: "Bettas has been deleted",
+        content: {
+          "application/json": {
+            schema: BettaSchema,
+          },
+        },
+      },
+      400: {
+        description: "Betta not found",
+      },
+    },
+  },
+  (c) => {
+    const id = c.req.param("id");
+
+    const checkId = bettas.find((betta) => betta.id === id?.toLowerCase());
+    if (!checkId) return c.json({ message: "Wrong ID" });
+
+    const updatedBettas = bettas.filter((betta) => betta.id !== id);
+    const deletedBetta = bettas.filter((betta) => betta.id == id);
+
+    bettas = updatedBettas;
+    return c.json({
+      data: deletedBetta,
+    });
+  }
+);
+
+// Delete Data by id
+// bettaRoute.delete("/:id", (c) => {
+//   const id = c.req.param("id").toLowerCase();
+
+//   const checkId = bettas.find((betta) => betta.id === id);
+//   if (!checkId) return c.json({ message: "Wrong ID" });
+
+//   const updatedBettas = bettas.filter((betta) => betta.id !== id);
+//   const deletedBetta = bettas.filter((betta) => betta.id == id);
+
+//   bettas = updatedBettas;
+//   return c.json({
+//     message: "Bettas has been deleted",
+//     data: deletedBetta,
+//   });
+// });
+
 // Add new Data
 bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
   const body: createBetta = c.req.valid("json");
@@ -100,23 +156,6 @@ bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
   bettas = [...dataBettas, newBetta];
 
   return c.json(newBetta, 201);
-});
-
-// Delete Data by id
-bettaRoute.delete("/:id", (c) => {
-  const id = c.req.param("id").toLowerCase();
-
-  const checkId = bettas.find((betta) => betta.id === id);
-  if (!checkId) return c.json({ message: "Wrong ID" });
-
-  const updatedBettas = bettas.filter((betta) => betta.id !== id);
-  const deletedBetta = bettas.filter((betta) => betta.id == id);
-
-  bettas = updatedBettas;
-  return c.json({
-    message: "Bettas has been deleted",
-    data: deletedBetta,
-  });
 });
 
 // Update Data
