@@ -7,13 +7,11 @@ import {
   Betta,
   GetBettaBySlug,
   GetBettaById,
-  GetBettaByComplex,
 } from "./schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
 //
 export const bettaRoute = new OpenAPIHono();
-export const complexRoute = new OpenAPIHono();
 
 let bettas: BettaClass[] = dataBettas;
 
@@ -269,43 +267,5 @@ bettaRoute.openapi(
       newBettaData: newBettaData,
       oldBettaData: betta,
     });
-  }
-);
-
-// Error
-bettaRoute.openapi(
-  {
-    method: "get",
-    path: "/complex/:complex",
-    description: "Get Betta by complex",
-    request: {
-      params: GetBettaByComplex,
-    },
-    responses: {
-      200: {
-        description: "OK",
-        content: {
-          "application/json": { schema: BettaSchema },
-        },
-      },
-      404: {
-        description: "Not found",
-      },
-    },
-  },
-  (c) => {
-    const complexParam = c.req.param("complex");
-    if (!complexParam) {
-      return c.json({ message: "complex is required" }, 400);
-    }
-
-    const complex = complexParam.toLowerCase();
-    const betta = dataBettas.find((b) => b.complex === complex);
-
-    if (!betta) {
-      return c.json({ message: "Not found", data: complexParam, complex }, 404);
-    }
-
-    return c.json(betta);
   }
 );
