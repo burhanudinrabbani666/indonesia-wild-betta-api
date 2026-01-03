@@ -1,4 +1,3 @@
-import { zValidator } from "@hono/zod-validator";
 import { dataBettas } from "./data";
 import {
   createBetta,
@@ -6,7 +5,6 @@ import {
   BettaClass,
   BettaSchema,
   Betta,
-  UpdateBettaSchema,
   GetBettaBySlug,
   GetBettaById,
   GetBettaByComplex,
@@ -134,14 +132,36 @@ bettaRoute.openapi(
 );
 
 // Add new Data
-bettaRoute.post("/", zValidator("json", createBettaSchema), (c) => {
-  const body: createBetta = c.req.valid("json");
-  const newBetta = new BettaClass(body);
+bettaRoute.openapi(
+  {
+    method: "post",
+    path: "/",
+    request: {
+      body: {
+        content: {
+          "application/json": { schema: createBettaSchema },
+        },
+      },
+    },
+    responses: {
+      201: {
+        description: "successfully added Betta",
+      },
+      400: {
+        description:
+          "Failed to enter data. Make sure the data matches what was requested.",
+      },
+    },
+  },
+  (c) => {
+    const body: createBetta = c.req.valid("json");
+    const newBetta = new BettaClass(body);
 
-  bettas = [...dataBettas, newBetta];
+    bettas = [...dataBettas, newBetta];
 
-  return c.json(newBetta, 201);
-});
+    return c.json(newBetta, 201);
+  }
+);
 
 // Update Bettas by d
 bettaRoute.openapi(
@@ -194,7 +214,6 @@ bettaRoute.openapi(
 );
 
 // Put Betta by id
-
 bettaRoute.openapi(
   {
     method: "put",
@@ -253,45 +272,11 @@ bettaRoute.openapi(
   }
 );
 
-bettaRoute.put("/:id", zValidator("json", UpdateBettaSchema), async (c) => {
-  const id = c.req.param("id");
-  const body = await c.req.json();
-  const betta = bettas.find((betta) => betta.id === id);
-
-  if (!betta) {
-    const newBetta = new BettaClass(body);
-
-    bettas = [...bettas, newBetta];
-
-    return c.json({
-      message: "id not found in old data, adding new data",
-      data: newBetta,
-      old: betta,
-    });
-  }
-
-  const newBettaData = {
-    id: id,
-    slug: body.name.toLocaleLowerCase().trim().split(" ").join("-"),
-    ...body,
-    createdAt: betta.createdAt,
-    updateAt: new Date(),
-  };
-
-  bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
-
-  return c.json({
-    message: "Betta Has been Updates",
-    newBettaData: newBettaData,
-    oldBettaData: betta,
-  });
-});
-
 // Error
 bettaRoute.openapi(
   {
     method: "get",
-    path: "/complex/{complex}", // OpenAPI syntax
+    path: "/complex/:complex", // OpenAPI syntax
     request: {
       params: GetBettaByComplex,
     },
@@ -318,7 +303,7 @@ bettaRoute.openapi(
     const betta = dataBettas.find((b) => b.complex === complex);
 
     if (!betta) {
-      return c.json({ message: "Not found" }, 404);
+      return c.json({ message: "Not found", data: complexParam, complex }, 404);
     }
 
     return c.json(betta);
