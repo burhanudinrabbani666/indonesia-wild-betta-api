@@ -1,4 +1,4 @@
-![Indonesia Wild Betta API Banner](./public/img/banner-api.svg)
+![Indonesia Wild Betta API Banner](./images/banner-api.svg)
 
 # Indonesia Wild Betta API
 

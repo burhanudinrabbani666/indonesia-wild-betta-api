@@ -1,8 +1,9 @@
 import { logger } from "hono/logger";
-import { bettaRoute } from "./modules/betta/betta";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
-import { complexRoute } from "./modules/betta/complex";
+
+import { bettaRoute } from "./modules/betta/route";
+import { complexRoute } from "./modules/complex/route";
 
 const app = new OpenAPIHono();
 

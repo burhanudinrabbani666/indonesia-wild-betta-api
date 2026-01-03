@@ -56,8 +56,8 @@ export const GetBettaById = BettaSchema.pick({
   id: true,
 });
 
-export const GetBettaByComplex = BettaSchema.pick({
-  complex: true,
+export const ParamComplexSlug = z.object({
+  complexSlug: z.string(),
 });
 
 export const createBettaSchema = BettaSchema.pick({
