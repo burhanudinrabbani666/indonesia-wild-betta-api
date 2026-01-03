@@ -33,7 +33,9 @@ complexRoute.openapi(
     }
 
     console.log(complexSlug);
-    const betta = dataBettas.find((betta) => betta.complexSlug === complexSlug);
+    const betta = dataBettas.filter(
+      (betta) => betta.complexSlug === complexSlug
+    );
 
     if (!betta) {
       return c.json(
