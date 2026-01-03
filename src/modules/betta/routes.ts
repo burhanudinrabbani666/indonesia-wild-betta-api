@@ -276,7 +276,8 @@ bettaRoute.openapi(
 bettaRoute.openapi(
   {
     method: "get",
-    path: "/complex/:complex", // OpenAPI syntax
+    path: "/complex/:complex",
+    description: "Get Betta by complex",
     request: {
       params: GetBettaByComplex,
     },
@@ -299,7 +300,6 @@ bettaRoute.openapi(
     }
 
     const complex = complexParam.toLowerCase();
-
     const betta = dataBettas.find((b) => b.complex === complex);
 
     if (!betta) {

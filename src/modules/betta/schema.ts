@@ -41,7 +41,7 @@ export const BettaSchema = z.object({
     .openapi({
       description: "Pick One",
       example:
-        "Bubble Nester Large || Bubble Nester Small || Mouth Brooder Large || Mouth Brooder Small ",
+        "Bubble Nester Large || Bubble Nester Small || Mouth Brooder Large || Mouth Brooder Small",
     }),
 
   createdAt: z.date(),
