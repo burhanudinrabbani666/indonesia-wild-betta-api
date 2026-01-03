@@ -1,4 +1,4 @@
-import { dataBettas } from "./data";
+import { dataBettas } from "../data";
 import {
   createBetta,
   createBettaSchema,
@@ -7,7 +7,7 @@ import {
   Betta,
   GetBettaBySlug,
   GetBettaById,
-} from "./schema";
+} from "../schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
 //

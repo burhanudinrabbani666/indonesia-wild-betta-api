@@ -1,6 +1,6 @@
-import { dataBettas } from "./data";
+import { dataBettas } from "../data";
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { BettaSchema, GetBettaByComplex } from "./schema";
+import { BettaSchema, GetBettaByComplexSlug } from "../schema";
 
 export const complexRoute = new OpenAPIHono();
 
@@ -8,10 +8,10 @@ export const complexRoute = new OpenAPIHono();
 complexRoute.openapi(
   {
     method: "get",
-    path: "/:complex",
+    path: "/:complexSlug",
     description: "Get Betta by complex",
     request: {
-      params: GetBettaByComplex,
+      params: GetBettaByComplexSlug,
     },
     responses: {
       200: {
@@ -26,22 +26,20 @@ complexRoute.openapi(
     },
   },
   (c) => {
-    const complexParam = c.req.param("complex");
-    if (!complexParam) {
+    const complexSlug = c.req.param("complexSlug");
+    console.log(complexSlug);
+    if (!complexSlug) {
       return c.json({ message: "complex is required" }, 400);
     }
 
-    const complex = complexParam.toLowerCase();
-    const betta = dataBettas.find((b) => b.complex === complex);
+    console.log(complexSlug);
+    const betta = dataBettas.find((betta) => betta.complexSlug === complexSlug);
 
     if (!betta) {
       return c.json(
         {
           message: "Not found",
-          data: complexParam,
-          complex,
-          betta,
-          databettas: dataBettas,
+          data: complexSlug,
         },
         404
       );

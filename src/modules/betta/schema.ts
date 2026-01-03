@@ -28,7 +28,7 @@ export const BettaSchema = z.object({
   phWater: z.string().nullable().openapi({
     example: "4,0 - 6,5",
   }),
-  complex: z.string().nullable().openapi({
+  complexSlug: z.string().nullable().openapi({
     example: "coccina",
   }),
   category: z
@@ -56,15 +56,15 @@ export const GetBettaById = BettaSchema.pick({
   id: true,
 });
 
-export const GetBettaByComplex = BettaSchema.pick({
-  complex: true,
+export const GetBettaByComplexSlug = z.object({
+  complexSlug: z.string(),
 });
 
 export const createBettaSchema = BettaSchema.pick({
   name: true,
   location: true,
   phWater: true,
-  complex: true,
+  complexSlug: true,
   category: true,
 });
 
@@ -72,7 +72,7 @@ export const UpdateBettaSchema = BettaSchema.pick({
   name: true,
   location: true,
   phWater: true,
-  complex: true,
+  complexSlug: true,
   category: true,
 });
 
@@ -92,7 +92,7 @@ export class BettaClass {
     province: string | null;
   };
   phWater: string | null;
-  complex: string | null;
+  complexSlug: string | null;
   category: string;
   createdAt: Date;
   updatedAt: Date;
@@ -105,7 +105,7 @@ export class BettaClass {
       province: string | null;
     };
     phWater: string | null;
-    complex: string | null;
+    complexSlug: string | null;
     category: string;
   }) {
     this.id = randomUUIDv7();
@@ -113,7 +113,7 @@ export class BettaClass {
     this.slug = this.name.toLocaleLowerCase().trim().split(" ").join("-");
     this.location = payload.location;
     this.phWater = payload.phWater;
-    this.complex = payload.complex;
+    this.complexSlug = payload.complexSlug;
     this.category = payload.category;
     this.createdAt = new Date();
     this.updatedAt = new Date();
