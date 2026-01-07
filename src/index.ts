@@ -20,5 +20,6 @@ app.doc("/openapi.json", {
   },
 });
 
+console.log(process.env.DATABASE_URL);
 app.get("/", Scalar({ url: "/openapi.json" }));
 export default app;
