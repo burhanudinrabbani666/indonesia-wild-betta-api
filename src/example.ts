@@ -10,6 +10,6 @@ const res = await client.query("SELECT * FROM betta");
 
 const bettas = res.rows;
 
-console.log({ bettas });
+console.log(bettas);
 
 await client.end();
