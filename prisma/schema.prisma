@@ -17,7 +17,7 @@ model Betta{
   id Int @id @default(autoincrement())
   
   name         String
-  slug         String
+  slug         String @unique
   river        String?
   city         String?
   province     String?
