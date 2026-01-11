@@ -1,6 +1,34 @@
 import { prisma } from "./lib/prisma";
+import { dataBettas } from "./modules/betta/databettas";
 
 async function main() {
+  for (const betta of dataBettas) {
+    const upsertedBetta = await prisma.betta.upsert({
+      where: {
+        slug: betta.slug,
+      },
+      update: {
+        name: betta.name,
+        river: betta.river,
+        city: betta.city,
+        province: betta.province,
+        ph_water: betta.phWater,
+        complex_slug: betta.complexSlug,
+        category: betta.category,
+      },
+      create: {
+        name: betta.name,
+        slug: betta.slug,
+        river: betta.river,
+        city: betta.city,
+        province: betta.province,
+        ph_water: betta.phWater,
+        complex_slug: betta.complexSlug,
+        category: betta.category,
+      },
+    });
+  }
+
   // const newBetta = await prisma.betta.create({
   //   data: {
   //     name: "betta channoides",
@@ -15,9 +43,9 @@ async function main() {
 
   // console.log(newBetta);
 
-  const allBetta = await prisma.betta.findMany({});
+  // const allBetta = await prisma.betta.findMany({});
 
-  console.log(allBetta);
+  // console.log(allBetta);
 
   // // // Fetch all users with their posts
   // const allUsers = await prisma.user.findMany({
