@@ -46,7 +46,7 @@ export const getBettaBySlug = betta.pick({
 });
 
 export const getBettaByID = z.object({
-  id: z.string().pipe(z.coerce.number()),
+  id: z.string(),
 });
 
 export const getBettaByComplex = z.object({
