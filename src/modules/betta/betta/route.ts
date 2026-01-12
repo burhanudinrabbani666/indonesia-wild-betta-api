@@ -9,6 +9,8 @@ import {
   GetBettaById,
 } from "../schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
+import { prisma } from "../../../lib/prisma";
+import { tr } from "zod/v4/locales";
 
 //
 export const bettaRoute = new OpenAPIHono();
@@ -27,8 +29,18 @@ bettaRoute.openapi(
       },
     },
   },
-  (c) => {
-    return c.json(bettas);
+  async (c) => {
+    try {
+      const allBettas = await prisma.betta.findMany({});
+      return c.json(allBettas, 200);
+    } catch (error) {
+      return c.json(
+        {
+          message: "Can't get bettas from server",
+        },
+        500
+      );
+    }
   }
 );
 
@@ -51,13 +63,15 @@ bettaRoute.openapi(
       },
     },
   },
-  (c) => {
-    const slug = c.req.param("slug");
-    const betta = bettas.find((betta) => betta.slug === slug);
+  async (c) => {
+    const bettaSlug = c.req.param("slug");
+    const betta = await prisma.betta.findUnique({
+      where: {
+        slug: bettaSlug,
+      },
+    });
 
-    if (!betta) return c.json("Betta Not Found", 400);
-
-    return c.json(betta, 200);
+    if (!betta) return c.json(betta, 200);
   }
 );
 
