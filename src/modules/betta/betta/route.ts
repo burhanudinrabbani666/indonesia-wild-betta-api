@@ -9,7 +9,7 @@ import {
 } from "../schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { betta } from "../databettas";
+import { Betta, betta } from "../databettas";
 //
 export const bettaRoute = new OpenAPIHono();
 
@@ -207,14 +207,14 @@ bettaRoute.openapi(
       params: GetBettaById,
       body: {
         content: {
-          "application/json": { schema: createBettaSchema.partial() },
+          "application/json": { schema: betta },
         },
       },
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        content: { "application/json": { schema: betta } },
       },
       400: {
         description: "Betta not found",
@@ -222,27 +222,32 @@ bettaRoute.openapi(
     },
   },
   async (c) => {
-    const id = c.req.param("id");
+    const bettaID = Number(c.req.param("id"));
     const body: Betta = await c.req.json();
-    const betta = bettas.find((betta) => betta.id === id);
 
-    if (!betta) return c.json({ message: "Betta not found" });
-
-    const newBettaData = {
-      ...betta,
-      ...body,
-      location: body.location
-        ? { ...betta.location, ...body.location }
-        : { ...betta.location },
-      updateAt: new Date(),
-    };
-
-    bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
+    const updateBetta = await prisma.betta.update({
+      where: {
+        id: bettaID,
+      },
+      data: {
+        name: body.name,
+        slug: body.slug,
+        river: body.river,
+        city: body.city,
+        province: body.province,
+        ph_water: body.phWater,
+        complex_slug: body.complexSlug,
+        category: body.category,
+      },
+    });
 
     return c.json({
       message: "Betta Has been Updates",
-      data: newBettaData,
-      old: betta,
+      updatedBetta: await prisma.betta.findUnique({
+        where: {
+          id: bettaID,
+        },
+      }),
     });
   }
 );
