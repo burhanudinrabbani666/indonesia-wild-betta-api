@@ -262,14 +262,14 @@ bettaRoute.openapi(
       params: GetBettaById,
       body: {
         content: {
-          "application/json": { schema: createBettaSchema },
+          "application/json": { schema: betta },
         },
       },
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        content: { "application/json": { schema: betta } },
       },
       400: {
         description: "Betta not found",
@@ -277,36 +277,37 @@ bettaRoute.openapi(
     },
   },
   async (c) => {
-    const id = c.req.param("id");
+    const bettaID = Number(c.req.param("id"));
     const body = await c.req.json();
-    const betta = bettas.find((betta) => betta.id === id);
 
-    if (!betta) {
-      const newBetta = new BettaClass(body);
+    console.log(body);
 
-      bettas = [...bettas, newBetta];
-
-      return c.json({
-        message: "id not found in old data, adding new data",
-        data: newBetta,
-        old: betta,
-      });
-    }
-
-    const newBettaData = {
-      id: id,
-      slug: body.name.toLocaleLowerCase().trim().split(" ").join("-"),
-      ...body,
-      createdAt: betta.createdAt,
-      updateAt: new Date(),
-    };
-
-    bettas = bettas.map((betta) => (betta.id === id ? newBettaData : betta));
-
-    return c.json({
-      message: "Betta Has been Updates",
-      newBettaData: newBettaData,
-      oldBettaData: betta,
+    const upsertedBetta = await prisma.betta.upsert({
+      where: {
+        id: bettaID,
+      },
+      update: {
+        name: body.name,
+        slug: body.slug,
+        river: body.river,
+        city: body.city,
+        province: body.province,
+        ph_water: body.phWater,
+        complex_slug: body.complexSlug,
+        category: body.category,
+      },
+      create: {
+        name: body.name,
+        slug: body.slug,
+        river: body.river,
+        city: body.city,
+        province: body.province,
+        ph_water: body.phWater,
+        complex_slug: body.complexSlug,
+        category: body.category,
+      },
     });
+
+    return c.json({});
   }
 );
