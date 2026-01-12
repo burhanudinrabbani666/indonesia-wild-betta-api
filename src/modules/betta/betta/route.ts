@@ -96,9 +96,15 @@ bettaRoute.openapi(
       },
     },
   },
-  (c) => {
-    const id = c.req.param("id");
-    const betta = bettas.find((betta) => betta.id === id);
+  async (c) => {
+    const bettaID = Number(c.req.param("id"));
+    // const betta = bettas.find((betta) => betta.id === id);
+
+    const betta = await prisma.betta.findUnique({
+      where: {
+        id: bettaID,
+      },
+    });
 
     if (!betta) return c.json("Betta Not Found", 400);
 
