@@ -1,6 +1,6 @@
 import z from "zod";
 
-const betta = z.object({
+export const betta = z.object({
   name: z.string(),
   slug: z.string(),
   river: z.string().nullable().optional(),
@@ -9,11 +9,10 @@ const betta = z.object({
   phWater: z.string().nullable().optional(),
   complexSlug: z.string().nullable().optional(),
   category: z.string(),
-  imageLink: z.string().nullable().optional(),
 });
 
-type Betta = z.infer<typeof betta>;
-type Bettas = Betta[];
+export type Betta = z.infer<typeof betta>;
+export type Bettas = Betta[];
 
 export const dataBettas: Bettas = [
   {
@@ -25,7 +24,6 @@ export const dataBettas: Bettas = [
     phWater: "3.7 - 5.3",
     complexSlug: "unimaculata",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta galdiator",
@@ -36,7 +34,6 @@ export const dataBettas: Bettas = [
     phWater: "4.2 - 4.8",
     complexSlug: "unimaculata",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta ideii",
@@ -47,7 +44,6 @@ export const dataBettas: Bettas = [
     phWater: "5.5 - 7.5",
     complexSlug: "unimaculata",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta pallifina",
@@ -58,7 +54,6 @@ export const dataBettas: Bettas = [
     phWater: "6.6 - 7.4.",
     complexSlug: "unimaculata",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta patoti",
@@ -69,7 +64,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 7.0",
     complexSlug: "unimaculata",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta unimaculata",
@@ -80,7 +74,6 @@ export const dataBettas: Bettas = [
     phWater: "5.0 - 7.5",
     complexSlug: "unimaculata",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta antuta",
@@ -91,7 +84,6 @@ export const dataBettas: Bettas = [
     phWater: null,
     complexSlug: "unimaculata",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta chlorapharynx",
@@ -102,7 +94,6 @@ export const dataBettas: Bettas = [
     phWater: "3.0 - 4.0.",
     complexSlug: "waseri",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta hipposysderos",
@@ -113,7 +104,6 @@ export const dataBettas: Bettas = [
     phWater: "3.5 - 6.0",
     complexSlug: "waseri",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta pardalotos",
@@ -124,7 +114,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.5",
     complexSlug: "waseri",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta renata",
@@ -135,7 +124,6 @@ export const dataBettas: Bettas = [
     phWater: "3.0 or 4.0",
     complexSlug: "waseri",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta spilotogena",
@@ -146,7 +134,6 @@ export const dataBettas: Bettas = [
     phWater: "4.9 - 5.5",
     complexSlug: "waseri",
     category: "mouth brooder large",
-    imageLink: null,
   },
   {
     name: "betta channoides",
@@ -157,7 +144,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.5",
     complexSlug: null,
     category: "mouth brooder small",
-    imageLink: null,
   },
   {
     name: "betta albimarginata",
@@ -168,7 +154,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.0",
     complexSlug: null,
     category: "mouth brooder small",
-    imageLink: null,
   },
   {
     name: "betta hendra",
@@ -179,7 +164,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.5",
     complexSlug: "coccina",
     category: "bubble nester small",
-    imageLink: null,
   },
   {
     name: "betta brownorum",
@@ -190,7 +174,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.5",
     complexSlug: "coccina",
     category: "bubble nester small",
-    imageLink: null,
   },
   {
     name: "betta burdigala",
@@ -201,7 +184,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.0",
     complexSlug: "coccina",
     category: "bubble nester small",
-    imageLink: null,
   },
   {
     name: "betta coccina",
@@ -212,7 +194,6 @@ export const dataBettas: Bettas = [
     phWater: " 3.5 - 4.5",
     complexSlug: "coccina",
     category: "bubble nester small",
-    imageLink: null,
   },
   {
     name: "betta miniopinna",
@@ -223,7 +204,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.5",
     complexSlug: "coccina",
     category: "bubble nester small",
-    imageLink: null,
   },
   {
     name: "betta rutilans",
@@ -234,7 +214,6 @@ export const dataBettas: Bettas = [
     phWater: "3.0 - 6.0",
     complexSlug: "coccina",
     category: "bubble nester small",
-    imageLink: null,
   },
   {
     name: "betta uberis",
@@ -245,7 +224,6 @@ export const dataBettas: Bettas = [
     phWater: "4.0 - 6.0",
     complexSlug: "coccina",
     category: "bubble nester small",
-    imageLink: null,
   },
   {
     name: "betta Bellica",
@@ -256,7 +234,6 @@ export const dataBettas: Bettas = [
     phWater: "4,0 - 6,5",
     complexSlug: null,
     category: "bubble nester large",
-    imageLink: null,
   },
   {
     name: "betta Simorum",
@@ -267,6 +244,5 @@ export const dataBettas: Bettas = [
     phWater: "4,0 - 6,5",
     complexSlug: null,
     category: "bubble nester large",
-    imageLink: null,
   },
 ];

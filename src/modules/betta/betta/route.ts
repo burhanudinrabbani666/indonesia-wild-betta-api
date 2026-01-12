@@ -4,14 +4,12 @@ import {
   createBettaSchema,
   BettaClass,
   BettaSchema,
-  Betta,
   GetBettaBySlug,
   GetBettaById,
 } from "../schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { tr } from "zod/v4/locales";
-
+import { betta } from "../databettas";
 //
 export const bettaRoute = new OpenAPIHono();
 
@@ -158,7 +156,7 @@ bettaRoute.openapi(
     request: {
       body: {
         content: {
-          "application/json": { schema: createBettaSchema },
+          "application/json": { schema: betta },
         },
       },
     },
@@ -172,13 +170,30 @@ bettaRoute.openapi(
       },
     },
   },
-  (c) => {
-    const body: createBetta = c.req.valid("json");
-    const newBetta = new BettaClass(body);
+  async (c) => {
+    const body = c.req.valid("json");
 
-    bettas = [...dataBettas, newBetta];
+    const newBetta = await prisma.betta.create({
+      data: {
+        name: body.name,
+        slug: body.slug,
+        river: body.river,
+        city: body.city,
+        province: body.province,
+        ph_water: body.phWater,
+        complex_slug: body.complexSlug,
+        category: body.category,
+      },
+    });
 
-    return c.json(newBetta, 201);
+    return c.json({
+      message: "create betta succesed",
+      betta: await prisma.betta.findUnique({
+        where: {
+          slug: body.slug,
+        },
+      }),
+    });
   }
 );
 
