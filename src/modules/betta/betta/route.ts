@@ -135,18 +135,17 @@ bettaRoute.openapi(
       },
     },
   },
-  (c) => {
-    const id = c.req.param("id");
+  async (c) => {
+    const bettaID = Number(c.req.param("id"));
 
-    const checkId = bettas.find((betta) => betta.id === id?.toLowerCase());
-    if (!checkId) return c.json({ message: "Wrong ID" });
+    const deleteBetta = await prisma.betta.delete({
+      where: {
+        id: bettaID,
+      },
+    });
 
-    const updatedBettas = bettas.filter((betta) => betta.id !== id);
-    const deletedBetta = bettas.filter((betta) => betta.id == id);
-
-    bettas = updatedBettas;
     return c.json({
-      data: deletedBetta,
+      message: "betta has been deleted",
     });
   }
 );
