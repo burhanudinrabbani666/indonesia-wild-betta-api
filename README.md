@@ -14,7 +14,7 @@
     alt="bun"
   />
   <img 
-    src="  https://img.shields.io/badge/hono-%23E36002.svg?style=for-the-badge&logo=hono&logoColor=white" 
+    src="https://img.shields.io/badge/hono-%23E36002.svg?style=for-the-badge&logo=hono&logoColor=white" 
     alt="hono"
   />
   <img 
