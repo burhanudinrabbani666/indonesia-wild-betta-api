@@ -85,8 +85,6 @@ bettaRoute.openapi(
   },
   async (c) => {
     const bettaID = Number(c.req.param("id"));
-    // const betta = bettas.find((betta) => betta.id === id);
-
     const betta = await prisma.betta.findUnique({
       where: {
         id: bettaID,
@@ -172,7 +170,7 @@ bettaRoute.openapi(
   }
 );
 
-// 6. Update Bettas by d
+// 6. Update Bettas by id
 bettaRoute.openapi(
   {
     method: "patch",
@@ -182,7 +180,7 @@ bettaRoute.openapi(
       params: getBettaByID,
       body: {
         content: {
-          "application/json": { schema: betta },
+          "application/json": { schema: betta.partial() },
         },
       },
     },
@@ -262,6 +260,6 @@ bettaRoute.openapi(
       create: body,
     });
 
-    return c.json({});
+    return c.json({ message: "succesefully put betta" });
   }
 );

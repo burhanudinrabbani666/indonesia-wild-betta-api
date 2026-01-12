@@ -1,17 +1,16 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { betta, getBettaBySlug } from "../schema";
+import { betta, getBettaByComplex } from "../schema";
 
 export const complexRoute = new OpenAPIHono();
 
-// Still Error
 complexRoute.openapi(
   {
     method: "get",
-    path: "/:complexSlug",
+    path: "/:complex_slug",
     description: "Get Betta by complex",
     request: {
-      params: getBettaBySlug,
+      params: getBettaByComplex,
     },
     responses: {
       200: {
@@ -26,15 +25,18 @@ complexRoute.openapi(
     },
   },
   async (c) => {
-    const complexSlug = c.req.param("complexSlug");
+    const bettas = c.req.param("complex_slug");
+    console.log("---------------------------", bettas);
 
     const bettasByComplexSlug = await prisma.betta.findMany({
       where: {
-        complex_slug: complexSlug,
+        complex_slug: bettas,
       },
     });
 
-    if (!bettasByComplexSlug)
+    console.log("---------------------------", bettasByComplexSlug);
+
+    if (bettasByComplexSlug.length === 0)
       return c.json({ message: "Complex not found" }, 400);
 
     return c.json(bettasByComplexSlug, 200);

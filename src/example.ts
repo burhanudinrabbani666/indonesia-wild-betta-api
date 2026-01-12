@@ -43,7 +43,11 @@ async function main() {
 
   // // console.log(newBetta);
 
-  // const allBetta = await prisma.betta.findMany({});
+  // const allBetta = await prisma.betta.findMany({
+  //   where: {
+  //     complex_slug: "coccina",
+  //   },
+  // });
 
   // console.log(allBetta);
 

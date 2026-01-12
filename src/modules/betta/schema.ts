@@ -1,4 +1,4 @@
-import z from "zod";
+import { z } from "@hono/zod-openapi";
 
 export const betta = z.object({
   name: z.string().openapi({
@@ -46,11 +46,11 @@ export const getBettaBySlug = betta.pick({
 });
 
 export const getBettaByID = z.object({
-  id: z.number(),
+  id: z.string().pipe(z.coerce.number()),
 });
 
-export const getBettaByComplex = betta.pick({
-  complex_slug: true,
+export const getBettaByComplex = z.object({
+  complex_slug: z.string(),
 });
 
 export type Betta = z.infer<typeof betta>;
