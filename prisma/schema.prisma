@@ -13,18 +13,18 @@ datasource db {
   provider = "postgresql"
 }
 
-model Betta{
+model Betta {
   id Int @id @default(autoincrement())
-  
-  name         String
-  slug         String @unique
-  river        String?
-  city         String?
-  province     String?
-  ph_water     String?
-  complex_slug String?
-  category     String
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+  name        String
+  slug        String  @unique
+  river       String?
+  city        String?
+  province    String?
+  phWater     String?
+  complexSlug String?
+  category    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
