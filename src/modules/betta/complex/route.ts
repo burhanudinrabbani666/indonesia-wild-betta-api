@@ -20,7 +20,7 @@ complexRoute.openapi(
         },
       },
       404: {
-        description: "Not found",
+        description: "Complex not found",
       },
     },
   },

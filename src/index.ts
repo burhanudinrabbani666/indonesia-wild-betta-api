@@ -3,12 +3,14 @@ import { bettaRoute } from "./modules/betta/betta/route";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { complexRoute } from "./modules/betta/complex/route";
+import { categoryRoutes } from "./modules/betta/category/routes";
 
 const app = new OpenAPIHono();
 
 app.use(logger());
 app.route("/bettas", bettaRoute);
 app.route("/complex", complexRoute);
+app.route("/category", categoryRoutes);
 
 app.doc("/openapi.json", {
   openapi: "3.0.0",

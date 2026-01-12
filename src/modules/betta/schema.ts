@@ -53,5 +53,9 @@ export const getBettaByComplex = z.object({
   complex_slug: z.string(),
 });
 
+export const getBettaByCategory = z.object({
+  category: z.string(),
+});
+
 export type Betta = z.infer<typeof betta>;
 export type Bettas = Betta[];
