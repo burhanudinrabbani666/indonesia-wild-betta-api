@@ -12,8 +12,8 @@ async function main() {
         river: betta.river,
         city: betta.city,
         province: betta.province,
-        ph_water: betta.ph_water,
-        complex_slug: betta.complex_slug,
+        phWater: betta.phWater,
+        complexSlug: betta.complexSlug,
         category: betta.category,
       },
       create: {
@@ -22,8 +22,8 @@ async function main() {
         river: betta.river,
         city: betta.city,
         province: betta.province,
-        ph_water: betta.ph_water,
-        complex_slug: betta.complex_slug,
+        phWater: betta.phWater,
+        complexSlug: betta.complexSlug,
         category: betta.category,
       },
     });
@@ -36,7 +36,7 @@ async function main() {
   // //     river: "mahakam",
   // //     city: "pampang",
   // //     province: "east kalimantan",
-  // //     ph_water: "4.0 - 6.5",
+  // //     phWater: "4.0 - 6.5",
   // //     category: "mouth brodder small",
   // //   },
   // // });
@@ -45,7 +45,7 @@ async function main() {
 
   // const allBetta = await prisma.betta.findMany({
   //   where: {
-  //     complex_slug: "coccina",
+  //     complexSlug: "coccina",
   //   },
   // });
 

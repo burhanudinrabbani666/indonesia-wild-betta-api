@@ -24,12 +24,12 @@ export const betta = z.object({
     minimum: 3,
     maximum: 100,
   }),
-  ph_water: z.string().nullable().optional().openapi({
+  phWater: z.string().nullable().optional().openapi({
     example: "4.0 - 6.5",
     minimum: 3,
     maximum: 100,
   }),
-  complex_slug: z.string().nullable().optional().openapi({
+  complexSlug: z.string().nullable().optional().openapi({
     example: "coccina",
     minimum: 3,
     maximum: 100,
@@ -50,7 +50,7 @@ export const getBettaByID = z.object({
 });
 
 export const getBettaByComplex = z.object({
-  complex_slug: z.string(),
+  complexSlug: z.string(),
 });
 
 export const getBettaByCategory = z.object({

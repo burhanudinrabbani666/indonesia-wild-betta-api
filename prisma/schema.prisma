@@ -21,10 +21,10 @@ model Betta{
   river        String?
   city         String?
   province     String?
-  ph_water     String?
-  complex_slug String?
+  phWater     String?
+  complexSlug String?
   category     String
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

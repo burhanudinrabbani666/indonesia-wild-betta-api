@@ -7,7 +7,7 @@ export const complexRoute = new OpenAPIHono();
 complexRoute.openapi(
   {
     method: "get",
-    path: "/:complex_slug",
+    path: "/:complexSlug",
     description: "Get Betta by complex",
     request: {
       params: getBettaByComplex,
@@ -25,10 +25,10 @@ complexRoute.openapi(
     },
   },
   async (c) => {
-    const bettas = c.req.param("complex_slug");
+    const bettas = c.req.param("complexSlug");
     const bettasByComplexSlug = await prisma.betta.findMany({
       where: {
-        complex_slug: bettas,
+        complexSlug: bettas,
       },
     });
 

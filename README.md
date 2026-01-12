@@ -43,14 +43,14 @@ Indonesia has a wealth of beautiful wild betta fish. Their colors are natural an
 - Local: `http://localhost:3000`
 - Production: `https://indonesiawildbetta.burhanudin.com`
 
-| Endpoint                | HTTP     | Description                | status |
-| ----------------------- | -------- | -------------------------- | ------ |
-| `/bettas`               | `GET`    | Get all Bettas             | ✅     |
-| `/bettas/:slug`         | `GET`    | Get Betta by slug          | ✅     |
-| `/bettas/id/id`         | `GET`    | Get Betta by id            | ✅     |
-| `/complex/:comple_slug` | `GET`    | Get Bettas by complex_slug | ✅     |
-| `/category/:category`   | `GET`    | Get Bettas by category     | ✅     |
-| `/betta`                | `POST`   | Add new Betta              | ✅     |
-| `/betta/:id`            | `DELETE` | Delete Betta by id         | ✅     |
-| `/bettas/:id`           | `PATCH`  | Patch Betta by name        | ✅     |
-| `/bettas/:id`           | `PUT`    | Put Betts by id            | ✅     |
+| Endpoint                | HTTP     | Description               | status |
+| ----------------------- | -------- | ------------------------- | ------ |
+| `/bettas`               | `GET`    | Get all Bettas            | ✅     |
+| `/bettas/:slug`         | `GET`    | Get Betta by slug         | ✅     |
+| `/bettas/id/id`         | `GET`    | Get Betta by id           | ✅     |
+| `/complex/:comple_slug` | `GET`    | Get Bettas by complexSlug | ✅     |
+| `/category/:category`   | `GET`    | Get Bettas by category    | ✅     |
+| `/betta`                | `POST`   | Add new Betta             | ✅     |
+| `/betta/:id`            | `DELETE` | Delete Betta by id        | ✅     |
+| `/bettas/:id`           | `PATCH`  | Patch Betta by name       | ✅     |
+| `/bettas/:id`           | `PUT`    | Put Betts by id           | ✅     |
