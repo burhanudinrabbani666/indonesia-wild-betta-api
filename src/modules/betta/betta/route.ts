@@ -71,7 +71,9 @@ bettaRoute.openapi(
       },
     });
 
-    if (!betta) return c.json(betta, 200);
+    if (!betta) return c.json({ message: "Betta not found" }, 400);
+
+    return c.json(betta, 200);
   }
 );
 
