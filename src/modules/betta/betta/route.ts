@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { Betta, betta, getBettaBySlug, getBettaByID } from "../databettas";
+import { Betta, betta, getBettaBySlug, getBettaByID } from "../schema";
 
 export const bettaRoute = new OpenAPIHono();
 

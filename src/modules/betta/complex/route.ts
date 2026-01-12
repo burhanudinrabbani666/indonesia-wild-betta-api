@@ -1,7 +1,6 @@
-import { dataBettas } from "../data";
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { BettaSchema, GetBettaByComplexSlug } from "../schema";
 import { prisma } from "../../../lib/prisma";
+import { betta, getBettaBySlug } from "../schema";
 
 export const complexRoute = new OpenAPIHono();
 
@@ -12,13 +11,13 @@ complexRoute.openapi(
     path: "/:complexSlug",
     description: "Get Betta by complex",
     request: {
-      params: GetBettaByComplexSlug,
+      params: getBettaBySlug,
     },
     responses: {
       200: {
         description: "OK",
         content: {
-          "application/json": { schema: BettaSchema },
+          "application/json": { schema: betta },
         },
       },
       404: {
