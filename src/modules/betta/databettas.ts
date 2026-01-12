@@ -1,14 +1,52 @@
 import z from "zod";
 
 export const betta = z.object({
-  name: z.string(),
-  slug: z.string(),
-  river: z.string().nullable().optional(),
-  city: z.string().nullable().optional(),
-  province: z.string().nullable().optional(),
-  phWater: z.string().nullable().optional(),
-  complexSlug: z.string().nullable().optional(),
-  category: z.string(),
+  name: z.string().openapi({
+    example: "betta hendra",
+    minimum: 3,
+    maximum: 100,
+  }),
+  slug: z.string().openapi({
+    example: "betta-hendra",
+  }),
+  river: z.string().nullable().optional().openapi({
+    example: "sabangau",
+    minimum: 3,
+    maximum: 100,
+  }),
+  city: z.string().nullable().optional().openapi({
+    example: "katingan",
+    minimum: 3,
+    maximum: 100,
+  }),
+  province: z.string().nullable().optional().openapi({
+    example: "central kalimantan",
+    minimum: 3,
+    maximum: 100,
+  }),
+  ph_water: z.string().nullable().optional().openapi({
+    example: "4.0 - 6.5",
+    minimum: 3,
+    maximum: 100,
+  }),
+  complex_slug: z.string().nullable().optional().openapi({
+    example: "coccina",
+    minimum: 3,
+    maximum: 100,
+  }),
+  category: z.string().openapi({
+    example: "bubble nester small",
+    minimum: 3,
+    maximum: 100,
+  }),
+});
+
+export const getBettaBySlug = betta.pick({
+  slug: true,
+});
+
+export const getBettaByID = z.object({
+  id: z.number(),
 });
 
 export type Betta = z.infer<typeof betta>;
@@ -21,8 +59,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: null,
     province: "east kalimantan",
-    phWater: "3.7 - 5.3",
-    complexSlug: "unimaculata",
+    ph_water: "3.7 - 5.3",
+    complex_slug: "unimaculata",
     category: "mouth brooder large",
   },
   {
@@ -31,8 +69,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: null,
     province: "kalimantan",
-    phWater: "4.2 - 4.8",
-    complexSlug: "unimaculata",
+    ph_water: "4.2 - 4.8",
+    complex_slug: "unimaculata",
     category: "mouth brooder large",
   },
   {
@@ -41,8 +79,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: null,
     province: "south kalimantan",
-    phWater: "5.5 - 7.5",
-    complexSlug: "unimaculata",
+    ph_water: "5.5 - 7.5",
+    complex_slug: "unimaculata",
     category: "mouth brooder large",
   },
   {
@@ -51,8 +89,8 @@ export const dataBettas: Bettas = [
     river: "barito river",
     city: null,
     province: "central kalimantan",
-    phWater: "6.6 - 7.4.",
-    complexSlug: "unimaculata",
+    ph_water: "6.6 - 7.4.",
+    complex_slug: "unimaculata",
     category: "mouth brooder large",
   },
   {
@@ -61,8 +99,8 @@ export const dataBettas: Bettas = [
     river: "mangar",
     city: "balikpapan",
     province: "east kalimantan",
-    phWater: "4.0 - 7.0",
-    complexSlug: "unimaculata",
+    ph_water: "4.0 - 7.0",
+    complex_slug: "unimaculata",
     category: "mouth brooder large",
   },
   {
@@ -71,8 +109,8 @@ export const dataBettas: Bettas = [
     river: "kajan",
     city: null,
     province: "east kalimantan",
-    phWater: "5.0 - 7.5",
-    complexSlug: "unimaculata",
+    ph_water: "5.0 - 7.5",
+    complex_slug: "unimaculata",
     category: "mouth brooder large",
   },
   {
@@ -81,8 +119,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: "bulunga",
     province: "east kalimantan",
-    phWater: null,
-    complexSlug: "unimaculata",
+    ph_water: null,
+    complex_slug: "unimaculata",
     category: "mouth brooder large",
   },
   {
@@ -91,8 +129,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: "bangka belitung",
     province: "east sumatra",
-    phWater: "3.0 - 4.0.",
-    complexSlug: "waseri",
+    ph_water: "3.0 - 4.0.",
+    complex_slug: "waseri",
     category: "mouth brooder large",
   },
   {
@@ -101,8 +139,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: null,
     province: "riau",
-    phWater: "3.5 - 6.0",
-    complexSlug: "waseri",
+    ph_water: "3.5 - 6.0",
+    complex_slug: "waseri",
     category: "mouth brooder large",
   },
   {
@@ -111,8 +149,8 @@ export const dataBettas: Bettas = [
     river: "galem",
     city: "palembang",
     province: "south sumatra",
-    phWater: "4.0 - 6.5",
-    complexSlug: "waseri",
+    ph_water: "4.0 - 6.5",
+    complex_slug: "waseri",
     category: "mouth brooder large",
   },
   {
@@ -121,8 +159,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: "jambi",
     province: "jambi",
-    phWater: "3.0 or 4.0",
-    complexSlug: "waseri",
+    ph_water: "3.0 or 4.0",
+    complex_slug: "waseri",
     category: "mouth brooder large",
   },
   {
@@ -131,8 +169,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: "bintan",
     province: "riau",
-    phWater: "4.9 - 5.5",
-    complexSlug: "waseri",
+    ph_water: "4.9 - 5.5",
+    complex_slug: "waseri",
     category: "mouth brooder large",
   },
   {
@@ -141,8 +179,8 @@ export const dataBettas: Bettas = [
     river: "Sungai Mahakam",
     city: "Pampang",
     province: "East Kalimantan",
-    phWater: "4.0 - 6.5",
-    complexSlug: null,
+    ph_water: "4.0 - 6.5",
+    complex_slug: null,
     category: "mouth brooder small",
   },
   {
@@ -151,8 +189,8 @@ export const dataBettas: Bettas = [
     river: "Sebuku",
     city: "nunukan",
     province: "East Kalimantan",
-    phWater: "4.0 - 6.0",
-    complexSlug: null,
+    ph_water: "4.0 - 6.0",
+    complex_slug: null,
     category: "mouth brooder small",
   },
   {
@@ -161,8 +199,8 @@ export const dataBettas: Bettas = [
     river: "Sabangau",
     city: "katingan",
     province: "central kalimantan",
-    phWater: "4.0 - 6.5",
-    complexSlug: "coccina",
+    ph_water: "4.0 - 6.5",
+    complex_slug: "coccina",
     category: "bubble nester small",
   },
   {
@@ -171,8 +209,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: null,
     province: "kalimantan",
-    phWater: "4.0 - 6.5",
-    complexSlug: "coccina",
+    ph_water: "4.0 - 6.5",
+    complex_slug: "coccina",
     category: "bubble nester small",
   },
   {
@@ -181,8 +219,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: "bangka island",
     province: "east sumatra",
-    phWater: "4.0 - 6.0",
-    complexSlug: "coccina",
+    ph_water: "4.0 - 6.0",
+    complex_slug: "coccina",
     category: "bubble nester small",
   },
   {
@@ -191,8 +229,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: null,
     province: "sumatra",
-    phWater: " 3.5 - 4.5",
-    complexSlug: "coccina",
+    ph_water: " 3.5 - 4.5",
+    complex_slug: "coccina",
     category: "bubble nester small",
   },
   {
@@ -201,8 +239,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: "bangka island",
     province: "riau",
-    phWater: "4.0 - 6.5",
-    complexSlug: "coccina",
+    ph_water: "4.0 - 6.5",
+    complex_slug: "coccina",
     category: "bubble nester small",
   },
   {
@@ -211,8 +249,8 @@ export const dataBettas: Bettas = [
     river: "mempawah",
     city: "anjungan",
     province: "west kalimantan",
-    phWater: "3.0 - 6.0",
-    complexSlug: "coccina",
+    ph_water: "3.0 - 6.0",
+    complex_slug: "coccina",
     category: "bubble nester small",
   },
   {
@@ -221,8 +259,8 @@ export const dataBettas: Bettas = [
     river: "kumai",
     city: "pangkalan bun",
     province: "central kalimantan",
-    phWater: "4.0 - 6.0",
-    complexSlug: "coccina",
+    ph_water: "4.0 - 6.0",
+    complex_slug: "coccina",
     category: "bubble nester small",
   },
   {
@@ -231,8 +269,8 @@ export const dataBettas: Bettas = [
     river: null,
     city: null,
     province: "East Sumatra",
-    phWater: "4,0 - 6,5",
-    complexSlug: null,
+    ph_water: "4,0 - 6,5",
+    complex_slug: null,
     category: "bubble nester large",
   },
   {
@@ -241,8 +279,8 @@ export const dataBettas: Bettas = [
     river: "Kapuas",
     city: "Jambi",
     province: "west Kalimantan",
-    phWater: "4,0 - 6,5",
-    complexSlug: null,
+    ph_water: "4,0 - 6,5",
+    complex_slug: null,
     category: "bubble nester large",
   },
 ];

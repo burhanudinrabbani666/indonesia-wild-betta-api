@@ -12,8 +12,8 @@ async function main() {
         river: betta.river,
         city: betta.city,
         province: betta.province,
-        ph_water: betta.phWater,
-        complex_slug: betta.complexSlug,
+        ph_water: betta.ph_water,
+        complex_slug: betta.complex_slug,
         category: betta.category,
       },
       create: {
@@ -22,8 +22,8 @@ async function main() {
         river: betta.river,
         city: betta.city,
         province: betta.province,
-        ph_water: betta.phWater,
-        complex_slug: betta.complexSlug,
+        ph_water: betta.ph_water,
+        complex_slug: betta.complex_slug,
         category: betta.category,
       },
     });

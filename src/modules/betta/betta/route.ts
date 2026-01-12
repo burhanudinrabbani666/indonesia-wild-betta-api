@@ -1,21 +1,10 @@
-import { dataBettas } from "../data";
-import {
-  createBetta,
-  createBettaSchema,
-  BettaClass,
-  BettaSchema,
-  GetBettaBySlug,
-  GetBettaById,
-} from "../schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { Betta, betta } from "../databettas";
-//
+import { Betta, betta, getBettaBySlug, getBettaByID } from "../databettas";
+
 export const bettaRoute = new OpenAPIHono();
 
-let bettas: BettaClass[] = dataBettas;
-
-// get all bettas
+// 1. Get all bettas
 bettaRoute.openapi(
   {
     method: "get",
@@ -42,19 +31,19 @@ bettaRoute.openapi(
   }
 );
 
-// Get one betta By Slug
+// 2. Get one betta By Slug
 bettaRoute.openapi(
   {
     method: "get",
     path: "/:slug",
     description: "Get One Betta by slug",
     request: {
-      params: GetBettaBySlug,
+      params: getBettaBySlug,
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        content: { "application/json": { schema: betta } },
       },
       400: {
         description: "Betta not found",
@@ -75,19 +64,19 @@ bettaRoute.openapi(
   }
 );
 
-// Get one Betta by ID
+// 3. Get one Betta by ID
 bettaRoute.openapi(
   {
     method: "get",
     path: "/id/:id",
     description: "Get Betta by ID",
     request: {
-      params: GetBettaById,
+      params: getBettaByID,
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        content: { "application/json": { schema: betta } },
       },
       400: {
         description: "Betta not found",
@@ -110,23 +99,18 @@ bettaRoute.openapi(
   }
 );
 
-// Delete Betta by id
+// 4. Delete Betta by id
 bettaRoute.openapi(
   {
     method: "delete",
     path: "/:id",
     description: "Delete Betta by id",
     request: {
-      params: GetBettaById,
+      params: getBettaByID,
     },
     responses: {
       200: {
         description: "Bettas has been deleted",
-        content: {
-          "application/json": {
-            schema: BettaSchema,
-          },
-        },
       },
       400: {
         description: "Betta not found",
@@ -148,7 +132,7 @@ bettaRoute.openapi(
   }
 );
 
-// Add new Data
+// 5. Add new Data
 bettaRoute.openapi(
   {
     method: "post",
@@ -174,16 +158,7 @@ bettaRoute.openapi(
     const body = c.req.valid("json");
 
     const newBetta = await prisma.betta.create({
-      data: {
-        name: body.name,
-        slug: body.slug,
-        river: body.river,
-        city: body.city,
-        province: body.province,
-        ph_water: body.phWater,
-        complex_slug: body.complexSlug,
-        category: body.category,
-      },
+      data: body,
     });
 
     return c.json({
@@ -197,14 +172,14 @@ bettaRoute.openapi(
   }
 );
 
-// Update Bettas by d
+// 6. Update Bettas by d
 bettaRoute.openapi(
   {
     method: "patch",
     path: "/:id",
     description: "Patch betta by ID",
     request: {
-      params: GetBettaById,
+      params: getBettaByID,
       body: {
         content: {
           "application/json": { schema: betta },
@@ -225,20 +200,19 @@ bettaRoute.openapi(
     const bettaID = Number(c.req.param("id"));
     const body: Betta = await c.req.json();
 
+    const oldDataBetta = await prisma.betta.findUnique({
+      where: {
+        id: bettaID,
+      },
+    });
+
+    console.log(oldDataBetta);
+
     const updateBetta = await prisma.betta.update({
       where: {
         id: bettaID,
       },
-      data: {
-        name: body.name,
-        slug: body.slug,
-        river: body.river,
-        city: body.city,
-        province: body.province,
-        ph_water: body.phWater,
-        complex_slug: body.complexSlug,
-        category: body.category,
-      },
+      data: { ...oldDataBetta, ...body },
     });
 
     return c.json({
@@ -252,14 +226,14 @@ bettaRoute.openapi(
   }
 );
 
-// Put Betta by id
+// 7. Put Betta by id
 bettaRoute.openapi(
   {
     method: "put",
     path: "/:id",
     description: "Edit data Betta by ID",
     request: {
-      params: GetBettaById,
+      params: getBettaByID,
       body: {
         content: {
           "application/json": { schema: betta },
@@ -280,32 +254,12 @@ bettaRoute.openapi(
     const bettaID = Number(c.req.param("id"));
     const body = await c.req.json();
 
-    console.log(body);
-
     const upsertedBetta = await prisma.betta.upsert({
       where: {
         id: bettaID,
       },
-      update: {
-        name: body.name,
-        slug: body.slug,
-        river: body.river,
-        city: body.city,
-        province: body.province,
-        ph_water: body.phWater,
-        complex_slug: body.complexSlug,
-        category: body.category,
-      },
-      create: {
-        name: body.name,
-        slug: body.slug,
-        river: body.river,
-        city: body.city,
-        province: body.province,
-        ph_water: body.phWater,
-        complex_slug: body.complexSlug,
-        category: body.category,
-      },
+      update: body,
+      create: body,
     });
 
     return c.json({});

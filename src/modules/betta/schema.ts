@@ -48,10 +48,6 @@ export const BettaSchema = z.object({
   updatedAt: z.date(),
 });
 
-export const GetBettaBySlug = BettaSchema.pick({
-  slug: true,
-});
-
 export const GetBettaById = BettaSchema.pick({
   id: true,
 });
