@@ -1,6 +1,7 @@
 import { dataBettas } from "../data";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { BettaSchema, GetBettaByComplexSlug } from "../schema";
+import { prisma } from "../../../lib/prisma";
 
 export const complexRoute = new OpenAPIHono();
 
@@ -25,28 +26,18 @@ complexRoute.openapi(
       },
     },
   },
-  (c) => {
+  async (c) => {
     const complexSlug = c.req.param("complexSlug");
-    console.log(complexSlug);
-    if (!complexSlug) {
-      return c.json({ message: "complex is required" }, 400);
-    }
 
-    console.log(complexSlug);
-    const betta = dataBettas.filter(
-      (betta) => betta.complexSlug === complexSlug
-    );
+    const bettasByComplexSlug = await prisma.betta.findMany({
+      where: {
+        complex_slug: complexSlug,
+      },
+    });
 
-    if (!betta) {
-      return c.json(
-        {
-          message: "Not found",
-          data: complexSlug,
-        },
-        404
-      );
-    }
+    if (!bettasByComplexSlug)
+      return c.json({ message: "Complex not found" }, 400);
 
-    return c.json(betta);
+    return c.json(bettasByComplexSlug, 200);
   }
 );
