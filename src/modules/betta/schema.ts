@@ -41,8 +41,8 @@ export const betta = z.object({
   }),
 });
 
-export const getBettaBySlug = betta.pick({
-  slug: true,
+export const getBettaBySlug = z.object({
+  slug: z.string(),
 });
 
 export const getBettaByID = z.object({

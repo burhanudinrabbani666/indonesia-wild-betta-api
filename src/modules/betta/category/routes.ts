@@ -26,8 +26,6 @@ categoryRoutes.openapi(
   },
   async (c) => {
     const bettas = c.req.param("category");
-
-    console.log("--------------", bettas);
     const bettasByCategory = await prisma.betta.findMany({
       where: {
         category: bettas,

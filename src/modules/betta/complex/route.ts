@@ -26,15 +26,11 @@ complexRoute.openapi(
   },
   async (c) => {
     const bettas = c.req.param("complex_slug");
-    console.log("---------------------------", bettas);
-
     const bettasByComplexSlug = await prisma.betta.findMany({
       where: {
         complex_slug: bettas,
       },
     });
-
-    console.log("---------------------------", bettasByComplexSlug);
 
     if (bettasByComplexSlug.length === 0)
       return c.json({ message: "Complex not found" }, 400);

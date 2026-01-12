@@ -203,9 +203,6 @@ bettaRoute.openapi(
         id: bettaID,
       },
     });
-
-    console.log(oldDataBetta);
-
     const updateBetta = await prisma.betta.update({
       where: {
         id: bettaID,
