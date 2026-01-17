@@ -20,7 +20,7 @@ export const betta = z.object({
     maximum: 100,
   }),
   province: z.string().nullable().optional().openapi({
-    example: "central kalimantan",
+    example: "central-kalimantan",
     minimum: 3,
     maximum: 100,
   }),
@@ -35,14 +35,16 @@ export const betta = z.object({
     maximum: 100,
   }),
   category: z.string().openapi({
-    example: "bubble nester small",
+    example: "bubble-nester-small",
     minimum: 3,
     maximum: 100,
   }),
 });
 
 export const getBettaBySlug = z.object({
-  slug: z.string(),
+  slug: z.string().openapi({
+    example: "betta-hendra",
+  }),
 });
 
 export const getBettaByID = z.object({

@@ -35,7 +35,7 @@ bettaRoute.openapi(
 bettaRoute.openapi(
   {
     method: "get",
-    path: "/:slug",
+    path: "/{slug}",
     description: "Get One Betta by slug",
     request: {
       params: getBettaBySlug,
@@ -52,6 +52,7 @@ bettaRoute.openapi(
   },
   async (c) => {
     const bettaSlug = c.req.param("slug");
+    console.log(`----------------`, bettaSlug);
     const betta = await prisma.betta.findUnique({
       where: {
         slug: bettaSlug,
@@ -68,7 +69,7 @@ bettaRoute.openapi(
 bettaRoute.openapi(
   {
     method: "get",
-    path: "/id/:id",
+    path: "/id/{id}",
     description: "Get Betta by ID",
     request: {
       params: getBettaByID,
@@ -102,7 +103,7 @@ bettaRoute.openapi(
 bettaRoute.openapi(
   {
     method: "delete",
-    path: "/:id",
+    path: "/{id}",
     description: "Delete Betta by id",
     request: {
       params: getBettaByID,
@@ -175,7 +176,7 @@ bettaRoute.openapi(
 bettaRoute.openapi(
   {
     method: "patch",
-    path: "/:id",
+    path: "/{id}",
     description: "Patch betta by ID",
     request: {
       params: getBettaByID,

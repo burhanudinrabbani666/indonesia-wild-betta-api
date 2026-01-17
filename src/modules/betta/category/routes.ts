@@ -7,7 +7,7 @@ export const categoryRoutes = new OpenAPIHono();
 categoryRoutes.openapi(
   {
     method: "get",
-    path: "/:category",
+    path: "/{category}",
     description: "Get Betta by complex",
     request: {
       params: getBettaByCategory,

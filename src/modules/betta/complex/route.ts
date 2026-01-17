@@ -7,7 +7,7 @@ export const complexRoute = new OpenAPIHono();
 complexRoute.openapi(
   {
     method: "get",
-    path: "/:complexSlug",
+    path: "/{complexSlug}",
     description: "Get Betta by complex",
     request: {
       params: getBettaByComplex,
