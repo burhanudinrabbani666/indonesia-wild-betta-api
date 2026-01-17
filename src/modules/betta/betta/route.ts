@@ -85,6 +85,7 @@ bettaRoute.openapi(
   },
   async (c) => {
     const bettaID = Number(c.req.param("id"));
+    console.log(typeof bettaID);
     const betta = await prisma.betta.findUnique({
       where: {
         id: bettaID,
