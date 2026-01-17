@@ -1,6 +1,6 @@
 import { Bettas } from "./schema";
 
-export const dataBettas: Bettas = [
+export const bettas: Bettas = [
   {
     name: "betta compuncta",
     slug: "betta-compuncta",
