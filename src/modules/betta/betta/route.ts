@@ -25,10 +25,10 @@ bettaRoute.openapi(
         {
           message: "Can't get bettas from server",
         },
-        500
+        500,
       );
     }
-  }
+  },
 );
 
 // 2. Get one betta By Slug
@@ -62,7 +62,7 @@ bettaRoute.openapi(
     if (!betta) return c.json({ message: "Betta not found" }, 400);
 
     return c.json(betta, 200);
-  }
+  },
 );
 
 // 3. Get one Betta by ID
@@ -96,7 +96,7 @@ bettaRoute.openapi(
     if (!betta) return c.json("Betta Not Found", 400);
 
     return c.json(betta, 200);
-  }
+  },
 );
 
 // 4. Delete Betta by id
@@ -129,7 +129,7 @@ bettaRoute.openapi(
     return c.json({
       message: "betta has been deleted",
     });
-  }
+  },
 );
 
 // 5. Add new Data
@@ -169,7 +169,7 @@ bettaRoute.openapi(
         },
       }),
     });
-  }
+  },
 );
 
 // 6. Update Bettas by id
@@ -220,14 +220,14 @@ bettaRoute.openapi(
         },
       }),
     });
-  }
+  },
 );
 
 // 7. Put Betta by id
 bettaRoute.openapi(
   {
     method: "put",
-    path: "/:id",
+    path: "/{id}",
     description: "Edit data Betta by ID",
     request: {
       params: getBettaByID,
@@ -260,5 +260,5 @@ bettaRoute.openapi(
     });
 
     return c.json({ message: "succesefully put betta" });
-  }
+  },
 );
