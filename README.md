@@ -1,4 +1,4 @@
-<h1 align="center">Indonesia Wildbetta API</h1>
+![Indonesia Wild Betta](./public/img/banner-api.svg)
 
 <p align="center">
   <img 
@@ -36,21 +36,44 @@
 
 </p>
 
+# INDONESIA WILDBETTA API
+
 Indonesia has a wealth of beautiful wild betta fish. Their colors are natural and vibrant. Many of them are still unknown to many people. This API contains information about Indonesian wild betta fish, along with photos. I hope this is helpful and that you're interested in Indonesian wild betta fish.
 
 ## API Documentations
 
-- Local: `http://localhost:3000`
-- Production: `https://indonesiawildbetta.burhanudin.com`
+- Production: [Indonesia Wildbetta API](https://indonesia-wild-betta-api-production.up.railway.app/)
 
-| Endpoint                | HTTP     | Description               | status |
-| ----------------------- | -------- | ------------------------- | ------ |
-| `/bettas`               | `GET`    | Get all Bettas            | ✅     |
-| `/bettas/:slug`         | `GET`    | Get Betta by slug         | ✅     |
-| `/bettas/id/id`         | `GET`    | Get Betta by id           | ✅     |
-| `/complex/:comple_slug` | `GET`    | Get Bettas by complexSlug | ✅     |
-| `/category/:category`   | `GET`    | Get Bettas by category    | ✅     |
-| `/betta`                | `POST`   | Add new Betta             | ✅     |
-| `/betta/:id`            | `DELETE` | Delete Betta by id        | ✅     |
-| `/bettas/:id`           | `PATCH`  | Patch Betta by name       | ✅     |
-| `/bettas/:id`           | `PUT`    | Put Betts by id           | ✅     |
+| Endpoint                | HTTP     | Description                 | status |
+| ----------------------- | -------- | --------------------------- | ------ |
+| `/bettas`               | `GET`    | Get all Bettas              | ✅     |
+| `/bettas/{slug}`        | `GET`    | Get Betta by slug           | ✅     |
+| `/bettas/id/{id}`       | `GET`    | Get Betta by id             | ✅     |
+| `/complex/{compleSlug}` | `GET`    | Get Bettas by complexSlug   | ✅     |
+| `/category/{category}`  | `GET`    | Get Bettas by category name | ✅     |
+| `/betta`                | `POST`   | Add new Betta               | ✅     |
+| `/betta/{id}`           | `DELETE` | Delete Betta by id          | ✅     |
+| `/bettas/{id}`          | `PATCH`  | Patch Betta by id           | ✅     |
+| `/bettas/{id}`          | `PUT`    | Put Betts by id             | ✅     |
+
+## Tech Stack
+
+| Category      | Technology     | Description                                            |
+| ------------- | -------------- | ------------------------------------------------------ |
+| Language      | **TypeScript** | Strongly typed JavaScript for better maintainability   |
+| Runtime       | **Bun**        | Fast JavaScript runtime for modern backend development |
+| Web Framework | **Hono**       | Lightweight and high-performance web framework         |
+| Validation    | **Zod**        | Type-safe schema validation                            |
+| API Spec      | **OpenAPI**    | Standardized API documentation                         |
+| API Docs UI   | **Scalar**     | Clean and modern OpenAPI documentation UI              |
+| Database      | **PostgreSQL** | Reliable and scalable relational database              |
+| ORM           | **Prisma**     | Type-safe database ORM                                 |
+| Deployment    | **Railway**    | Simple cloud deployment and infrastructure             |
+
+## Thanks
+
+Finally, version one of this REST API is complete.
+
+In the next development phase, more betta fish variants may be added — such as **Thai splendens** or other **non–wild betta species** — to expand the dataset and features further.
+
+Thank you to everyone who supported and contributed to this project 🚀
