@@ -2,6 +2,10 @@ import { prisma } from "../src/lib/prisma";
 import { bettas } from "../src/modules/betta/data";
 
 async function main() {
+  // TODO: for loop to seed Complexes
+
+  // TODO: for loop to seed Categories
+
   for (const betta of bettas) {
     const upsertedBetta = await prisma.betta.upsert({
       where: {
@@ -13,8 +17,11 @@ async function main() {
         city: betta.city,
         province: betta.province,
         phWater: betta.phWater,
-        complexSlug: betta.complexSlug,
-        category: betta.categorySlug,
+        complex: {
+          connect: {
+            slug: betta.complexSlug,
+          },
+        },
       },
       create: {
         name: betta.name,
@@ -23,8 +30,11 @@ async function main() {
         city: betta.city,
         province: betta.province,
         phWater: betta.phWater,
-        complexSlug: betta.complexSlug,
-        category: betta.categorySlug,
+        complex: {
+          connect: {
+            slug: betta.complexSlug,
+          },
+        },
       },
     });
 
