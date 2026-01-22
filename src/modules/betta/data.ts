@@ -9,7 +9,7 @@ export const bettas: Bettas = [
     province: "east-kalimantan",
     phWater: "3.7 - 5.3",
     complexSlug: "unimaculata",
-    category: "mouth brooder large",
+    categorySlug: "mouth brooder large",
   },
   {
     name: "betta galdiator",
@@ -19,7 +19,7 @@ export const bettas: Bettas = [
     province: "kalimantan",
     phWater: "4.2 - 4.8",
     complexSlug: "unimaculata",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta ideii",
@@ -29,7 +29,7 @@ export const bettas: Bettas = [
     province: "south-kalimantan",
     phWater: "5.5 - 7.5",
     complexSlug: "unimaculata",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta pallifina",
@@ -39,7 +39,7 @@ export const bettas: Bettas = [
     province: "central-kalimantan",
     phWater: "6.6 - 7.4",
     complexSlug: "unimaculata",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta patoti",
@@ -49,7 +49,7 @@ export const bettas: Bettas = [
     province: "east-kalimantan",
     phWater: "4.0 - 7.0",
     complexSlug: "unimaculata",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta unimaculata",
@@ -59,7 +59,7 @@ export const bettas: Bettas = [
     province: "east-kalimantan",
     phWater: "5.0 - 7.5",
     complexSlug: "unimaculata",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta antuta",
@@ -69,7 +69,7 @@ export const bettas: Bettas = [
     province: "east-kalimantan",
     phWater: null,
     complexSlug: "unimaculata",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta chlorapharynx",
@@ -79,7 +79,7 @@ export const bettas: Bettas = [
     province: "east-sumatra",
     phWater: "3.0 - 4.0",
     complexSlug: "waseri",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta hipposysderos",
@@ -89,7 +89,7 @@ export const bettas: Bettas = [
     province: "riau",
     phWater: "3.5 - 6.0",
     complexSlug: "waseri",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta pardalotos",
@@ -99,7 +99,7 @@ export const bettas: Bettas = [
     province: "south-sumatra",
     phWater: "4.0 - 6.5",
     complexSlug: "waseri",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta renata",
@@ -109,7 +109,7 @@ export const bettas: Bettas = [
     province: "jambi",
     phWater: "3.0 - 4.0",
     complexSlug: "waseri",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta spilotogena",
@@ -119,7 +119,7 @@ export const bettas: Bettas = [
     province: "riau",
     phWater: "4.9 - 5.5",
     complexSlug: "waseri",
-    category: "mouth-brooder-large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta channoides",
@@ -129,7 +129,7 @@ export const bettas: Bettas = [
     province: "east-kalimantan",
     phWater: "4.0 - 6.5",
     complexSlug: null,
-    category: "mouth-brooder-small",
+    categorySlug: "mouth-brooder-small",
   },
   {
     name: "betta albimarginata",
@@ -139,7 +139,7 @@ export const bettas: Bettas = [
     province: "east-kalimantan",
     phWater: "4.0 - 6.0",
     complexSlug: null,
-    category: "mouth-brooder-small",
+    categorySlug: "mouth-brooder-small",
   },
   {
     name: "betta hendra",
@@ -149,7 +149,7 @@ export const bettas: Bettas = [
     province: "central-kalimantan",
     phWater: "4.0 - 6.5",
     complexSlug: "coccina",
-    category: "bubble-nester-small",
+    categorySlug: "bubble-nester-small",
   },
   {
     name: "betta brownorum",
@@ -159,7 +159,7 @@ export const bettas: Bettas = [
     province: "kalimantan",
     phWater: "4.0 - 6.5",
     complexSlug: "coccina",
-    category: "bubble-nester-small",
+    categorySlug: "bubble-nester-small",
   },
   {
     name: "betta burdigala",
@@ -169,7 +169,7 @@ export const bettas: Bettas = [
     province: "east-sumatra",
     phWater: "4.0 - 6.0",
     complexSlug: "coccina",
-    category: "bubble-nester-small",
+    categorySlug: "bubble-nester-small",
   },
   {
     name: "betta coccina",
@@ -179,7 +179,7 @@ export const bettas: Bettas = [
     province: "sumatra",
     phWater: "3.5 - 4.5",
     complexSlug: "coccina",
-    category: "bubble-nester-small",
+    categorySlug: "bubble-nester-small",
   },
   {
     name: "betta miniopinna",
@@ -189,7 +189,7 @@ export const bettas: Bettas = [
     province: "riau",
     phWater: "4.0 - 6.5",
     complexSlug: "coccina",
-    category: "bubble-nester-small",
+    categorySlug: "bubble-nester-small",
   },
   {
     name: "betta rutilans",
@@ -199,7 +199,7 @@ export const bettas: Bettas = [
     province: "west-kalimantan",
     phWater: "3.0 - 6.0",
     complexSlug: "coccina",
-    category: "bubble-nester-small",
+    categorySlug: "bubble-nester-small",
   },
   {
     name: "betta uberis",
@@ -209,7 +209,7 @@ export const bettas: Bettas = [
     province: "central-kalimantan",
     phWater: "4.0 - 6.0",
     complexSlug: "coccina",
-    category: "bubble-nester-small",
+    categorySlug: "bubble-nester-small",
   },
   {
     name: "betta Bellica",
@@ -219,7 +219,7 @@ export const bettas: Bettas = [
     province: "east-sumatra",
     phWater: "4.0 - 6.5",
     complexSlug: null,
-    category: "bubble-nester-large",
+    categorySlug: "bubble-nester-large",
   },
   {
     name: "betta Simorum",
@@ -229,6 +229,6 @@ export const bettas: Bettas = [
     province: "west-kalimantan",
     phWater: "4.0 - 6.5",
     complexSlug: null,
-    category: "bubble-nester-large",
+    categorySlug: "bubble-nester-large",
   },
 ];
