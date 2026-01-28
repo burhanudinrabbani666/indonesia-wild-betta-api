@@ -1,6 +1,11 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { Betta, betta, getBettaBySlug, getBettaByID } from "../schema";
+import {
+  Betta,
+  BettaSchema,
+  GetBettaBySlugSchema,
+  GetBettaByIdSchema,
+} from "../schema";
 
 export const bettaRoute = new OpenAPIHono();
 
@@ -14,19 +19,17 @@ bettaRoute.openapi(
       200: {
         description: "Successfully get all bettas",
       },
+      500: {
+        description: "Failed to get all Betta's",
+      },
     },
   },
   async (c) => {
     try {
-      const allBettas = await prisma.betta.findMany({});
+      const allBettas = await prisma.betta.findMany();
       return c.json(allBettas, 200);
     } catch (error) {
-      return c.json(
-        {
-          message: "Can't get bettas from server",
-        },
-        500,
-      );
+      return c.json({ message: "Failed to get all Betta's", error }, 500);
     }
   },
 );
@@ -38,30 +41,52 @@ bettaRoute.openapi(
     path: "/{slug}",
     description: "Get One Betta by slug",
     request: {
-      params: getBettaBySlug,
+      params: GetBettaBySlugSchema,
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: betta } },
+        content: { "application/json": { schema: BettaSchema } },
+      },
+      404: {
+        description: "Failed to get one Betta by slug",
       },
       400: {
-        description: "Betta not found",
+        description: "Slug must be includes betta",
       },
     },
   },
   async (c) => {
-    const bettaSlug = c.req.param("slug");
-    console.log(`----------------`, bettaSlug);
-    const betta = await prisma.betta.findUnique({
-      where: {
-        slug: bettaSlug,
-      },
-    });
+    const slug = c.req.param("slug");
 
-    if (!betta) return c.json({ message: "Betta not found" }, 400);
+    try {
+      const betta = await prisma.betta.findUnique({
+        where: { slug },
+      });
 
-    return c.json(betta, 200);
+      if (!slug?.includes("betta"))
+        return c.json(
+          {
+            message: "Slug must be includes betta",
+            example: "betta-hendra",
+            slug,
+          },
+          400,
+        );
+
+      if (!betta)
+        return c.json(
+          { message: "Failed to get one Betta by slug", slug },
+          404,
+        );
+
+      return c.json(betta, 200);
+    } catch (error) {
+      return c.json(
+        { message: "Failed to get one Betta by slug", error, slug },
+        404,
+      );
+    }
   },
 );
 
@@ -72,30 +97,34 @@ bettaRoute.openapi(
     path: "/id/{id}",
     description: "Get Betta by ID",
     request: {
-      params: getBettaByID,
+      params: GetBettaByIdSchema,
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: betta } },
+        content: { "application/json": { schema: BettaSchema } },
       },
-      400: {
+      404: {
         description: "Betta not found",
       },
     },
   },
   async (c) => {
-    const bettaID = Number(c.req.param("id"));
-    console.log(typeof bettaID);
-    const betta = await prisma.betta.findUnique({
-      where: {
-        id: bettaID,
-      },
-    });
+    const id = Number(c.req.param("id"));
 
-    if (!betta) return c.json("Betta Not Found", 400);
+    try {
+      const betta = await prisma.betta.findUnique({
+        where: {
+          id,
+        },
+      });
 
-    return c.json(betta, 200);
+      if (!betta) return c.json("Betta not found!", 400);
+
+      return c.json(betta, 200);
+    } catch (error) {
+      return c.json({ message: "Betta not found!", id }, 404);
+    }
   },
 );
 
@@ -106,29 +135,40 @@ bettaRoute.openapi(
     path: "/{id}",
     description: "Delete Betta by id",
     request: {
-      params: getBettaByID,
+      params: GetBettaByIdSchema,
     },
     responses: {
       200: {
         description: "Bettas has been deleted",
       },
-      400: {
+      404: {
         description: "Betta not found",
       },
     },
   },
   async (c) => {
-    const bettaID = Number(c.req.param("id"));
+    const id = Number(c.req.param("id"));
 
-    const deleteBetta = await prisma.betta.delete({
-      where: {
-        id: bettaID,
-      },
-    });
+    try {
+      const deleteBetta = await prisma.betta.delete({
+        where: { id },
+      });
 
-    return c.json({
-      message: "betta has been deleted",
-    });
+      return c.json(
+        {
+          message: "betta has been deleted",
+        },
+        200,
+      );
+    } catch (error) {
+      return c.json(
+        {
+          message: "Betta not found!",
+          id,
+        },
+        404,
+      );
+    }
   },
 );
 
@@ -140,13 +180,13 @@ bettaRoute.openapi(
     request: {
       body: {
         content: {
-          "application/json": { schema: betta },
+          "application/json": { schema: BettaSchema },
         },
       },
     },
     responses: {
       201: {
-        description: "successfully added Betta",
+        description: "Successfully create Betta",
       },
       400: {
         description:
@@ -157,108 +197,62 @@ bettaRoute.openapi(
   async (c) => {
     const body = c.req.valid("json");
 
-    const newBetta = await prisma.betta.create({
-      data: body,
-    });
+    try {
+      const newBetta = await prisma.betta.create({
+        data: body,
+      });
 
-    return c.json({
-      message: "create betta succesed",
-      betta: await prisma.betta.findUnique({
-        where: {
-          slug: body.slug,
-        },
-      }),
-    });
+      return c.json({
+        message: "Successfully create Betta",
+        body,
+      });
+    } catch (error: any) {
+      return c.json(
+        { message: error.meta.driverAdapterError.cause.originalMessage },
+        400,
+      );
+    }
   },
 );
 
-// 6. Update Bettas by id
+// 6. Patch Betta by id
 bettaRoute.openapi(
   {
     method: "patch",
     path: "/{id}",
     description: "Patch betta by ID",
     request: {
-      params: getBettaByID,
+      params: GetBettaByIdSchema,
       body: {
         content: {
-          "application/json": { schema: betta.partial() },
+          "application/json": { schema: BettaSchema.partial() },
         },
       },
     },
     responses: {
       200: {
-        description: "Succesfully get Betta",
-        content: { "application/json": { schema: betta } },
+        description: "Succesfully update Betta",
+        content: { "application/json": { schema: BettaSchema } },
       },
-      400: {
+      404: {
         description: "Betta not found",
       },
     },
   },
   async (c) => {
-    const bettaID = Number(c.req.param("id"));
-    const body: Betta = await c.req.json();
+    const id = Number(c.req.param("id"));
 
-    const oldDataBetta = await prisma.betta.findUnique({
-      where: {
-        id: bettaID,
-      },
-    });
-    const updateBetta = await prisma.betta.update({
-      where: {
-        id: bettaID,
-      },
-      data: { ...oldDataBetta, ...body },
-    });
+    try {
+      const body = await c.req.json();
 
-    return c.json({
-      message: "Betta Has been Updates",
-      updatedBetta: await prisma.betta.findUnique({
-        where: {
-          id: bettaID,
-        },
-      }),
-    });
-  },
-);
+      const updateBetta = await prisma.betta.update({
+        where: { id },
+        data: { ...body },
+      });
 
-// 7. Put Betta by id
-bettaRoute.openapi(
-  {
-    method: "put",
-    path: "/{id}",
-    description: "Edit data Betta by ID",
-    request: {
-      params: getBettaByID,
-      body: {
-        content: {
-          "application/json": { schema: betta },
-        },
-      },
-    },
-    responses: {
-      200: {
-        description: "Succesfully get Betta",
-        content: { "application/json": { schema: betta } },
-      },
-      400: {
-        description: "Betta not found",
-      },
-    },
-  },
-  async (c) => {
-    const bettaID = Number(c.req.param("id"));
-    const body = await c.req.json();
-
-    const upsertedBetta = await prisma.betta.upsert({
-      where: {
-        id: bettaID,
-      },
-      update: body,
-      create: body,
-    });
-
-    return c.json({ message: "succesefully put betta" });
+      return c.json({ updateBetta });
+    } catch (error) {
+      return c.json({ message: "Betta not found", error }, 404);
+    }
   },
 );

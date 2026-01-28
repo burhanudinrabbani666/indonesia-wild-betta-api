@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
 
-export const betta = z.object({
+export const BettaSchema = z.object({
   name: z.string().openapi({
     example: "betta hendra",
     minimum: 3,
@@ -34,30 +34,30 @@ export const betta = z.object({
     minimum: 3,
     maximum: 100,
   }),
-  category: z.string().openapi({
+  categorySlug: z.string().openapi({
     example: "bubble-nester-small",
     minimum: 3,
     maximum: 100,
   }),
 });
 
-export const getBettaBySlug = z.object({
+export const GetBettaBySlugSchema = z.object({
   slug: z.string().openapi({
     example: "betta-hendra",
   }),
 });
 
-export const getBettaByID = z.object({
+export const GetBettaByIdSchema = z.object({
   id: z.string(),
 });
 
-export const getBettaByComplex = z.object({
+export const GetBettaByComplexSchema = z.object({
   complexSlug: z.string(),
 });
 
-export const getBettaByCategory = z.object({
-  category: z.string(),
+export const GetBettaByCategorySchema = z.object({
+  categorySlug: z.string(),
 });
 
-export type Betta = z.infer<typeof betta>;
+export type Betta = z.infer<typeof BettaSchema>;
 export type Bettas = Betta[];

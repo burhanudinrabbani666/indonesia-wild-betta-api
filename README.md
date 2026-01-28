@@ -42,7 +42,7 @@ Indonesia has a wealth of beautiful wild betta fish. Their colors are natural an
 
 ## API Documentations
 
-- Production: [Indonesia Wildbetta API](https://indonesia-wild-betta-api-production.up.railway.app/)
+- Production: [Indonesia Wildbetta API](https://indonesia-wild-betta.burhanudin.com/)
 
 | Endpoint                | HTTP     | Description                 | status |
 | ----------------------- | -------- | --------------------------- | ------ |

@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { betta, getBettaByComplex } from "../schema";
+import { BettaSchema, GetBettaByComplexSchema } from "../schema";
 
 export const complexRoute = new OpenAPIHono();
 
@@ -10,13 +10,13 @@ complexRoute.openapi(
     path: "/{complexSlug}",
     description: "Get Betta by complex",
     request: {
-      params: getBettaByComplex,
+      params: GetBettaByComplexSchema,
     },
     responses: {
       200: {
         description: "OK",
         content: {
-          "application/json": { schema: betta },
+          "application/json": { schema: BettaSchema },
         },
       },
       404: {
@@ -36,5 +36,5 @@ complexRoute.openapi(
       return c.json({ message: "Complex not found" }, 400);
 
     return c.json(bettasByComplexSlug, 200);
-  }
+  },
 );

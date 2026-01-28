@@ -14,7 +14,7 @@ async function main() {
         province: betta.province,
         phWater: betta.phWater,
         complexSlug: betta.complexSlug,
-        category: betta.category,
+        categorySlug: betta.category,
       },
       create: {
         name: betta.name,
@@ -24,7 +24,7 @@ async function main() {
         province: betta.province,
         phWater: betta.phWater,
         complexSlug: betta.complexSlug,
-        category: betta.category,
+        categorySlug: betta.category,
       },
     });
 

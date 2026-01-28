@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { getBettaByCategory, betta } from "../schema";
+import { GetBettaByCategorySchema, BettaSchema } from "../schema";
 
 export const categoryRoutes = new OpenAPIHono();
 
@@ -10,13 +10,13 @@ categoryRoutes.openapi(
     path: "/{category}",
     description: "Get Betta by complex",
     request: {
-      params: getBettaByCategory,
+      params: GetBettaByCategorySchema,
     },
     responses: {
       200: {
         description: "OK",
         content: {
-          "application/json": { schema: betta },
+          "application/json": { schema: BettaSchema },
         },
       },
       404: {
@@ -36,5 +36,5 @@ categoryRoutes.openapi(
       return c.json({ message: "Category not found" }, 400);
 
     return c.json({ bettasByCategory });
-  }
+  },
 );
