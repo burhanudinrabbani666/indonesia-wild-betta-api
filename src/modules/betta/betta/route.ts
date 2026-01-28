@@ -210,79 +210,53 @@ bettaRoute.openapi(
   async (c) => {
     const body = c.req.valid("json");
 
-    let complex = await prisma.complex.findUnique({
-      where: {
-        slug: body.complexSlug,
-      },
-    });
-
-    if (!complex && body.complexSlug) {
-      const createNewComplex = await prisma.complex.create({
-        data: {
-          name: body.complexSlug,
-          slug: body.complexSlug,
-        },
-      });
-
-      const newComplex = await prisma.complex.findUnique({
-        where: {
-          slug: body.complexSlug,
-        },
-      });
-
-      complex = newComplex;
-    }
-
-    let category = await prisma.category.findUnique({
-      where: {
-        slug: body.categorySlug,
-      },
-    });
-
-    if (!category && body.categorySlug) {
-      const createNewcategory = await prisma.category.create({
-        data: {
-          name: body.categorySlug,
-          slug: body.categorySlug,
-        },
-      });
-
-      const newCategory = await prisma.category.findUnique({
-        where: {
-          slug: body.categorySlug,
-        },
-      });
-
-      category = newCategory;
-    }
-
-    const newBetta = {
-      name: body.name,
-      slug: body.slug,
-      river: body.river,
-      city: body.city,
-      province: body.province,
-      phWater: body.phWater,
-      complexId: complex?.id,
-      categoryId: category?.id,
-    };
-
-    console.log(newBetta, complex, category);
     try {
-      const createBetta = await prisma.betta.create({
-        data: newBetta,
-        include: {
-          complex: true,
-          category: true,
-        },
+      const result = await prisma.$transaction(async (tx) => {
+        const complex = body.complexSlug
+          ? await tx.complex.upsert({
+              where: { slug: body.complexSlug },
+              update: {},
+              create: {
+                name: body.complexSlug,
+                slug: body.complexSlug,
+              },
+            })
+          : null;
+
+        const category = body.categorySlug
+          ? await tx.category.upsert({
+              where: { slug: body.categorySlug },
+              update: {},
+              create: {
+                name: body.categorySlug,
+                slug: body.categorySlug,
+              },
+            })
+          : null;
+
+        return await tx.betta.create({
+          data: {
+            name: body.name,
+            slug: body.slug,
+            river: body.river,
+            city: body.city,
+            province: body.province,
+            phWater: body.phWater,
+            complexId: complex?.id,
+            categoryId: category?.id,
+          },
+          include: {
+            complex: true,
+            category: true,
+          },
+        });
       });
 
       return c.json({
         message: "Successfully create Betta",
-        newBetta,
+        result,
       });
     } catch (error) {
-      console.log(error);
       return c.json({ message: error }, 400);
     }
   },
