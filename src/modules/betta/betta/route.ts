@@ -26,7 +26,12 @@ bettaRoute.openapi(
   },
   async (c) => {
     try {
-      const allBettas = await prisma.betta.findMany();
+      const allBettas = await prisma.betta.findMany({
+        include: {
+          complex: true,
+          category: true,
+        },
+      });
       return c.json(allBettas, 200);
     } catch (error) {
       return c.json({ message: "Failed to get all Betta's", error }, 500);

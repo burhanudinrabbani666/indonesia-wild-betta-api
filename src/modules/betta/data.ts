@@ -128,7 +128,7 @@ export const bettas: Bettas = [
     city: "pampang",
     province: "east-kalimantan",
     phWater: "4.0 - 6.5",
-    complexSlug: null,
+    complexSlug: "channoides",
     categorySlug: "mouth-brooder-small",
   },
   {
@@ -138,7 +138,7 @@ export const bettas: Bettas = [
     city: "nunukan",
     province: "east-kalimantan",
     phWater: "4.0 - 6.0",
-    complexSlug: null,
+    complexSlug: "channoides",
     categorySlug: "mouth-brooder-small",
   },
   {
@@ -218,7 +218,7 @@ export const bettas: Bettas = [
     city: null,
     province: "east-sumatra",
     phWater: "4.0 - 6.5",
-    complexSlug: null,
+    complexSlug: "bellica",
     categorySlug: "bubble-nester-large",
   },
   {
@@ -228,7 +228,7 @@ export const bettas: Bettas = [
     city: "jambi",
     province: "west-kalimantan",
     phWater: "4.0 - 6.5",
-    complexSlug: null,
+    complexSlug: "bellica",
     categorySlug: "bubble-nester-large",
   },
 ];

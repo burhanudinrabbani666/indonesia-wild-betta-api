@@ -29,7 +29,7 @@ export const BettaSchema = z.object({
     minimum: 3,
     maximum: 100,
   }),
-  complexSlug: z.string().nullable().optional().openapi({
+  complexSlug: z.string().openapi({
     example: "coccina",
     minimum: 3,
     maximum: 100,

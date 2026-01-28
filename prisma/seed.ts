@@ -3,6 +3,38 @@ import { bettas } from "../src/modules/betta/data";
 
 async function main() {
   for (const betta of bettas) {
+    const upsertedBetta = await prisma.complex.upsert({
+      where: {
+        slug: betta.complexSlug,
+      },
+      update: {
+        name: betta.complexSlug,
+        slug: betta.complexSlug,
+      },
+      create: {
+        name: betta.complexSlug,
+        slug: betta.complexSlug,
+      },
+    });
+  }
+
+  for (const betta of bettas) {
+    const upsertedBetta = await prisma.category.upsert({
+      where: {
+        slug: betta.categorySlug,
+      },
+      update: {
+        name: betta.categorySlug,
+        slug: betta.categorySlug,
+      },
+      create: {
+        name: betta.categorySlug,
+        slug: betta.categorySlug,
+      },
+    });
+  }
+
+  for (const betta of bettas) {
     const upsertedBetta = await prisma.betta.upsert({
       where: {
         slug: betta.slug,
@@ -13,8 +45,16 @@ async function main() {
         city: betta.city,
         province: betta.province,
         phWater: betta.phWater,
-        complexSlug: betta.complexSlug,
-        categorySlug: betta.category,
+        complex: {
+          connect: {
+            slug: betta.complexSlug,
+          },
+        },
+        category: {
+          connect: {
+            slug: betta.categorySlug,
+          },
+        },
       },
       create: {
         name: betta.name,
@@ -23,8 +63,16 @@ async function main() {
         city: betta.city,
         province: betta.province,
         phWater: betta.phWater,
-        complexSlug: betta.complexSlug,
-        categorySlug: betta.category,
+        complex: {
+          connect: {
+            slug: betta.complexSlug,
+          },
+        },
+        category: {
+          connect: {
+            slug: betta.categorySlug,
+          },
+        },
       },
     });
 

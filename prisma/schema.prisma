@@ -13,17 +13,45 @@ datasource db {
   provider = "postgresql"
 }
 
-model Betta{
+model Betta {
   id Int @id @default(autoincrement())
-  
-  name         String
-  slug         String @unique
-  river        String?
-  city         String?
-  province     String?
-  phWater      String?
-  complexSlug  String?
-  categorySlug String
+
+  name     String
+  slug     String  @unique
+  river    String?
+  city     String?
+  province String?
+  phWater  String?
+
+  complex   Complex? @relation(fields: [complexId], references: [id], onDelete: Cascade)
+  complexId Int?
+
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Complex {
+  id Int @id @default(autoincrement())
+
+  slug String @unique
+  name String
+
+  bettas Betta[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+
+  slug String @unique
+  name String
+
+  betta Betta[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
