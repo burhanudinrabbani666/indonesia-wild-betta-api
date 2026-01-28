@@ -216,7 +216,7 @@ bettaRoute.openapi(
       },
     });
 
-    if (!complex) {
+    if (!complex && body.complexSlug) {
       const createNewComplex = await prisma.complex.create({
         data: {
           name: body.complexSlug,
@@ -239,7 +239,7 @@ bettaRoute.openapi(
       },
     });
 
-    if (!category) {
+    if (!category && body.categorySlug) {
       const createNewcategory = await prisma.category.create({
         data: {
           name: body.categorySlug,
