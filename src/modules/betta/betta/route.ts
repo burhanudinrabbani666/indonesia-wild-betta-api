@@ -67,6 +67,10 @@ bettaRoute.openapi(
     try {
       const betta = await prisma.betta.findUnique({
         where: { slug },
+        include: {
+          complex: true,
+          category: true,
+        },
       });
 
       if (!slug?.includes("betta"))
@@ -121,6 +125,10 @@ bettaRoute.openapi(
       const betta = await prisma.betta.findUnique({
         where: {
           id,
+        },
+        include: {
+          complex: true,
+          category: true,
         },
       });
 
@@ -177,7 +185,7 @@ bettaRoute.openapi(
   },
 );
 
-// 5. Add new Data
+// 5. Add new Betta
 bettaRoute.openapi(
   {
     method: "post",
@@ -202,20 +210,45 @@ bettaRoute.openapi(
   async (c) => {
     const body = c.req.valid("json");
 
+    const complex = await prisma.complex.findUnique({
+      where: {
+        slug: body.complexSlug,
+      },
+    });
+
+    const category = await prisma.category.findUnique({
+      where: {
+        slug: body.categorySlug,
+      },
+    });
+
+    const newBetta = {
+      name: body.name,
+      slug: body.slug,
+      river: body.river,
+      city: body.city,
+      province: body.province,
+      phWater: body.phWater,
+      complexId: complex?.id,
+      categoryId: category?.id,
+    };
+
     try {
-      const newBetta = await prisma.betta.create({
-        data: body,
+      const createBetta = await prisma.betta.create({
+        data: newBetta,
+        include: {
+          complex: true,
+          category: true,
+        },
       });
 
       return c.json({
         message: "Successfully create Betta",
         body,
       });
-    } catch (error: any) {
-      return c.json(
-        { message: error.meta.driverAdapterError.cause.originalMessage },
-        400,
-      );
+    } catch (error) {
+      console.log(error);
+      return c.json({ message: error }, 400);
     }
   },
 );
