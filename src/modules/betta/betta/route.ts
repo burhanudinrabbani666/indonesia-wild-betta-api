@@ -210,17 +210,51 @@ bettaRoute.openapi(
   async (c) => {
     const body = c.req.valid("json");
 
-    const complex = await prisma.complex.findUnique({
+    let complex = await prisma.complex.findUnique({
       where: {
         slug: body.complexSlug,
       },
     });
 
-    const category = await prisma.category.findUnique({
+    if (!complex) {
+      const createNewComplex = await prisma.complex.create({
+        data: {
+          name: body.complexSlug,
+          slug: body.complexSlug,
+        },
+      });
+
+      const newComplex = await prisma.complex.findUnique({
+        where: {
+          slug: body.complexSlug,
+        },
+      });
+
+      complex = newComplex;
+    }
+
+    let category = await prisma.category.findUnique({
       where: {
         slug: body.categorySlug,
       },
     });
+
+    if (!category) {
+      const createNewcategory = await prisma.category.create({
+        data: {
+          name: body.categorySlug,
+          slug: body.categorySlug,
+        },
+      });
+
+      const newCategory = await prisma.category.findUnique({
+        where: {
+          slug: body.categorySlug,
+        },
+      });
+
+      category = newCategory;
+    }
 
     const newBetta = {
       name: body.name,
@@ -233,6 +267,7 @@ bettaRoute.openapi(
       categoryId: category?.id,
     };
 
+    console.log(newBetta, complex, category);
     try {
       const createBetta = await prisma.betta.create({
         data: newBetta,
@@ -244,7 +279,7 @@ bettaRoute.openapi(
 
       return c.json({
         message: "Successfully create Betta",
-        body,
+        newBetta,
       });
     } catch (error) {
       console.log(error);
