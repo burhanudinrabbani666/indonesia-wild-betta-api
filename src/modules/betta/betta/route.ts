@@ -21,6 +21,7 @@ bettaRoute.openapi(
     responses: {
       200: {
         description: "Successfully get all bettas",
+        content: { "application/json": { schema: GetBettaSchema } },
       },
       500: {
         description: "Failed to get all Betta's",
@@ -115,7 +116,7 @@ bettaRoute.openapi(
         content: { "application/json": { schema: GetBettaSchema } },
       },
       400: {
-        description: "Bad Request!",
+        description: "Id not valid!",
       },
 
       404: {
@@ -172,7 +173,8 @@ bettaRoute.openapi(
     },
   },
   async (c) => {
-    const id = Number(c.req.param("id"));
+    const req = c.req.valid("param");
+    const id = Number(req.id);
 
     try {
       const deleteBetta = await prisma.betta.delete({ where: { id } });

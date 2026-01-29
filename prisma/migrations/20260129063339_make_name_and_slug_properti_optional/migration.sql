@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Category" ALTER COLUMN "slug" DROP NOT NULL,
+ALTER COLUMN "name" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Complex" ALTER COLUMN "slug" DROP NOT NULL,
+ALTER COLUMN "name" DROP NOT NULL;

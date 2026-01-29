@@ -36,8 +36,8 @@ model Betta {
 model Complex {
   id Int @id @default(autoincrement())
 
-  slug String @unique
-  name String
+  slug String? @unique
+  name String?
 
   bettas Betta[]
 
@@ -48,8 +48,8 @@ model Complex {
 model Category {
   id Int @id @default(autoincrement())
 
-  slug String @unique
-  name String
+  slug String? @unique
+  name String?
 
   betta Betta[]
 
