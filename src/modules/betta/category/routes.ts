@@ -9,7 +9,7 @@ import { GetBettaSchema } from "../betta/schema";
 import slugify from "slugify";
 
 export const categoryRoutes = new OpenAPIHono();
-const tag = ["Category"];
+const tag = ["Categories"];
 
 // Get all complexs
 categoryRoutes.openapi(
@@ -41,10 +41,10 @@ categoryRoutes.openapi(
           message: "Failed get all Complex",
           error,
         },
-        400,
+        400
       );
     }
-  },
+  }
 );
 
 // Get Bettas By category slug
@@ -92,7 +92,7 @@ categoryRoutes.openapi(
           {
             message: "Category or Betta not found!",
           },
-          404,
+          404
         );
       }
 
@@ -102,10 +102,10 @@ categoryRoutes.openapi(
         {
           message: "Internal server error",
         },
-        500,
+        500
       );
     }
-  },
+  }
 );
 
 // Post Category
@@ -146,7 +146,7 @@ categoryRoutes.openapi(
           message: "Cannot create complex: already exists",
           category: checkCategory,
         },
-        409,
+        409
       );
     try {
       const newCategory = await prisma.category.create({
@@ -159,5 +159,5 @@ categoryRoutes.openapi(
 
       return c.json(error, 500);
     }
-  },
+  }
 );

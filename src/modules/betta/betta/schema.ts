@@ -74,10 +74,8 @@ export const GetBettaBySlugSchema = z.object({
   }),
 });
 
-export const GetBettaByIdSchema = z.object({
-  id: z.string().min(1).openapi({
-    example: 1,
-  }),
+export const ParamBettaByIdSchema = z.object({
+  id: z.int(),
 });
 
 export const GetBettaByComplexSchema = z.object({

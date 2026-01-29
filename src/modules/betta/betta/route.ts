@@ -3,7 +3,7 @@ import { prisma } from "../../../lib/prisma";
 import {
   BettaSchema,
   GetBettaBySlugSchema,
-  GetBettaByIdSchema,
+  ParamBettaByIdSchema,
   GetBettaSchema,
   PatchBettaSchema,
   PostBettaSchema,
@@ -42,7 +42,7 @@ bettaRoute.openapi(
     } catch (error) {
       return c.json({ message: "Failed to get all Betta's" }, 500);
     }
-  },
+  }
 );
 
 // 2. Get one betta By Slug
@@ -81,7 +81,7 @@ bettaRoute.openapi(
           example: "betta-hendra",
           slug,
         },
-        400,
+        400
       );
 
     try {
@@ -99,7 +99,7 @@ bettaRoute.openapi(
     } catch (error) {
       return c.json({ message: "Internal server error!" }, 500);
     }
-  },
+  }
 );
 
 // 3. Get one Betta by ID
@@ -110,7 +110,7 @@ bettaRoute.openapi(
     description: "Get Betta by ID",
     tags: tag,
     request: {
-      params: GetBettaByIdSchema,
+      params: ParamBettaByIdSchema,
     },
     responses: {
       200: {
@@ -118,9 +118,8 @@ bettaRoute.openapi(
         content: { "application/json": { schema: GetBettaSchema } },
       },
       400: {
-        description: "Id not valid!",
+        description: "ID not valid!",
       },
-
       404: {
         description: "Betta not found",
       },
@@ -133,7 +132,7 @@ bettaRoute.openapi(
     const req = c.req.valid("param");
     const id = Number(req.id);
 
-    if (!id) return c.json({ message: "Id not Valid" }, 400);
+    if (!id) return c.json({ message: "ID not valid!" }, 400);
 
     try {
       const betta = await prisma.betta.findUnique({
@@ -152,7 +151,7 @@ bettaRoute.openapi(
     } catch (error) {
       return c.json({ message: "Internal server error!", error, id }, 500);
     }
-  },
+  }
 );
 
 // 4. Delete Betta by id
@@ -163,11 +162,11 @@ bettaRoute.openapi(
     description: "Delete Betta by id",
     tags: tag,
     request: {
-      params: GetBettaByIdSchema,
+      params: ParamBettaByIdSchema,
     },
     responses: {
       200: {
-        description: "Bettas has been deleted",
+        description: "Betta has been deleted",
       },
       404: {
         description: "Betta not found",
@@ -179,13 +178,13 @@ bettaRoute.openapi(
     const id = Number(req.id);
 
     try {
-      const deleteBetta = await prisma.betta.delete({ where: { id } });
+      const result = await prisma.betta.delete({ where: { id } });
 
-      return c.json({ message: "betta has been deleted" }, 200);
+      return c.json({ message: "Betta has been deleted", id, result }, 200);
     } catch (error) {
       return c.json({ message: "Betta not found!", id }, 404);
     }
-  },
+  }
 );
 
 // 5. Add new Betta
@@ -207,9 +206,8 @@ bettaRoute.openapi(
         description: "Successfully create Betta",
         content: { "application/json": { schema: GetBettaSchema } },
       },
-      400: {
-        description:
-          "Failed to enter data. Make sure the data matches what was requested.",
+      500: {
+        description: "Failed to create Betta",
       },
     },
   },
@@ -263,9 +261,9 @@ bettaRoute.openapi(
         result: betta,
       });
     } catch (error) {
-      return c.json({ message: error }, 400);
+      return c.json({ message: error }, 500);
     }
-  },
+  }
 );
 
 // 6. Patch Betta by id
@@ -276,7 +274,7 @@ bettaRoute.openapi(
     description: "Patch betta by ID",
     tags: tag,
     request: {
-      params: GetBettaByIdSchema,
+      params: ParamBettaByIdSchema,
       body: {
         content: {
           "application/json": { schema: PatchBettaSchema.partial() },
@@ -292,12 +290,12 @@ bettaRoute.openapi(
         description: "Betta not found!",
       },
       500: {
-        description: "Internal server error!",
+        description: "Failed to update Betta",
       },
     },
   },
   async (c) => {
-    const id = Number(c.req.param("id"));
+    const { id } = c.req.valid("param");
     const body = c.req.valid("json");
 
     try {
@@ -305,7 +303,7 @@ bettaRoute.openapi(
         let complexId;
         let categoryId;
 
-        if (body.complexSlug !== undefined) {
+        if (body.complexSlug) {
           const complex = await tx.complex.upsert({
             where: {
               slug: body.complexSlug,
@@ -313,14 +311,14 @@ bettaRoute.openapi(
             update: { name: body.complexSlug },
             create: {
               name: body.complexSlug,
-              slug: slugify(body.complexSlug),
+              slug: body.complexSlug,
             },
           });
 
           complexId = complex.id;
         }
 
-        if (body.categorySlug !== undefined) {
+        if (body.categorySlug) {
           const category = await tx.category.upsert({
             where: {
               slug: body.categorySlug,
@@ -328,7 +326,7 @@ bettaRoute.openapi(
             update: { name: body.categorySlug },
             create: {
               name: body.categorySlug,
-              slug: slugify(body.categorySlug),
+              slug: body.categorySlug,
             },
           });
 
@@ -338,14 +336,22 @@ bettaRoute.openapi(
         return tx.betta.update({
           where: { id },
           data: {
-            ...(body.name !== undefined && { name: body.name }),
-            ...(body.name !== undefined && { slug: slugify(body.name) }),
-            ...(body.river !== undefined && { river: body.river }),
-            ...(body.city !== undefined && { city: body.city }),
-            ...(body.province !== undefined && { province: body.province }),
-            ...(body.phWater !== undefined && { phWater: body.phWater }),
-            ...(complexId !== undefined && { complexId }),
-            ...(categoryId !== undefined && { categoryId }),
+            name: body.name,
+            slug: createBettaSlug(body.name),
+            river: body.river,
+            city: body.city,
+            province: body.province,
+            phWater: body.phWater,
+            complex: {
+              connect: {
+                slug: body.complexSlug,
+              },
+            },
+            category: {
+              connect: {
+                slug: body.categorySlug,
+              },
+            },
           },
           include: {
             complex: true,
@@ -362,5 +368,5 @@ bettaRoute.openapi(
 
       return c.json({ message: "Internal Server error", error }, 500);
     }
-  },
+  }
 );

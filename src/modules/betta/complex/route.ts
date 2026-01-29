@@ -9,7 +9,7 @@ import {
 import slugify from "slugify";
 
 export const complexRoute = new OpenAPIHono();
-const tag = ["Complex"];
+const tag = ["Complexes"];
 
 // 1. Get all Complex
 complexRoute.openapi(
@@ -38,7 +38,7 @@ complexRoute.openapi(
     } catch (error) {
       return c.json(error, 500);
     }
-  },
+  }
 );
 
 // Get Bettas by complex slug
@@ -82,7 +82,7 @@ complexRoute.openapi(
     } catch (error) {
       return c.json({ message: "Internal server error!", error, slug }, 500);
     }
-  },
+  }
 );
 
 // Post new Complex
@@ -131,7 +131,7 @@ complexRoute.openapi(
           message: "Cannot create complex: already exists",
           complex: checkComplex,
         },
-        409,
+        409
       );
 
     try {
@@ -141,10 +141,10 @@ complexRoute.openapi(
 
       return c.json(
         { message: "Succesfully Create new Complex", newComplex },
-        201,
+        201
       );
     } catch (error) {
       return c.json({ message: "Failed Create new Complex", name }, 400);
     }
-  },
+  }
 );
