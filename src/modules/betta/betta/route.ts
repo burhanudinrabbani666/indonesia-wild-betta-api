@@ -1,10 +1,10 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
 import {
-  Betta,
   BettaSchema,
   GetBettaBySlugSchema,
   GetBettaByIdSchema,
+  GetBettaScheama,
 } from "../schema";
 
 export const bettaRoute = new OpenAPIHono();
@@ -51,18 +51,31 @@ bettaRoute.openapi(
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        content: { "application/json": { schema: GetBettaScheama } },
       },
       404: {
-        description: "Failed to get one Betta by slug",
+        description: "Betta not found!",
       },
       400: {
-        description: "Slug must be includes betta",
+        description: "Bad Request!",
+      },
+      500: {
+        description: "Internal server error!",
       },
     },
   },
   async (c) => {
-    const slug = c.req.param("slug");
+    const { slug } = c.req.valid("param");
+
+    if (!slug?.includes("betta"))
+      return c.json(
+        {
+          message: "Slug must be includes betta",
+          example: "betta-hendra",
+          slug,
+        },
+        400,
+      );
 
     try {
       const betta = await prisma.betta.findUnique({
@@ -73,28 +86,11 @@ bettaRoute.openapi(
         },
       });
 
-      if (!slug?.includes("betta"))
-        return c.json(
-          {
-            message: "Slug must be includes betta",
-            example: "betta-hendra",
-            slug,
-          },
-          400,
-        );
-
-      if (!betta)
-        return c.json(
-          { message: "Failed to get one Betta by slug", slug },
-          404,
-        );
+      if (!betta) return c.json({ message: "Betta not found!", slug }, 404);
 
       return c.json(betta, 200);
     } catch (error) {
-      return c.json(
-        { message: "Failed to get one Betta by slug", error, slug },
-        404,
-      );
+      return c.json({ message: "Internal server error!", error, slug }, 500);
     }
   },
 );

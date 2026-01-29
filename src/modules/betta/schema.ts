@@ -1,4 +1,31 @@
 import { z } from "@hono/zod-openapi";
+export const GetBettaScheama = z.object({
+  id: z.int().openapi({ example: 1 }),
+  name: z.string().openapi({ example: "betta compuncta" }),
+  slug: z.string().openapi({ example: "betta-compuncta" }),
+  river: z.string().openapi({ example: null }),
+  city: z.string().openapi({ example: null }),
+  province: z.string().openapi({ example: "east-kalimantan" }),
+  phWater: z.string().openapi({ example: "3.7 - 5.3" }),
+  complexId: z.int().openapi({ example: 1 }),
+  categoryId: z.int().openapi({ example: 2 }),
+  createdAt: z.string().openapi({ example: "2026-01-17T07:19:26.762Z" }),
+  updatedAt: z.string().openapi({ example: "2026-01-29T01:45:57.615Z" }),
+  complex: z.object({
+    id: z.int().openapi({ example: 1 }),
+    slug: z.string().openapi({ example: "unimaculata" }),
+    name: z.string().openapi({ example: "unimaculata" }),
+    createdAt: z.string().openapi({ example: "2026-01-28T15:16:41.151Z" }),
+    updatedAt: z.string().openapi({ example: "2026-01-29T01:45:55.208Z" }),
+  }),
+  category: z.object({
+    id: z.int().openapi({ example: 2 }),
+    slug: z.string().openapi({ example: "mouth-brooder-large" }),
+    name: z.string().openapi({ example: "mouth-brooder-large" }),
+    createdAt: z.string().openapi({ example: "2026-01-28T15:16:42.841Z" }),
+    updatedAt: z.string().openapi({ example: "2026-01-29T01:45:56.897Z" }),
+  }),
+});
 
 export const BettaSchema = z.object({
   name: z.string().openapi({
@@ -42,7 +69,7 @@ export const BettaSchema = z.object({
 });
 
 export const GetBettaBySlugSchema = z.object({
-  slug: z.string().openapi({
+  slug: z.string().min(3).openapi({
     example: "betta-hendra",
   }),
 });

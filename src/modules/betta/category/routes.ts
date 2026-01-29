@@ -1,10 +1,7 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import {
-  GetBettaByCategorySchema,
-  GetBettaScheama,
-  GetCategorySchema,
-} from "./schema";
+import { GetBettaByCategorySchema, GetCategorySchema } from "./schema";
+import { GetBettaScheama } from "../schema";
 
 export const categoryRoutes = new OpenAPIHono();
 const tag = ["category"];
