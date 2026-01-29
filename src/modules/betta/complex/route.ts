@@ -93,7 +93,11 @@ complexRoute.openapi(
     description: "Post new Complex",
     tags: tag,
     request: {
-      params: PostComplexSchema,
+      body: {
+        content: {
+          "application/json": { schema: PostComplexSchema },
+        },
+      },
     },
     responses: {
       201: {
@@ -105,14 +109,31 @@ complexRoute.openapi(
       400: {
         description: "Failed Create new Complex",
       },
+      409: {
+        description: "Cannot create complex: already exists",
+      },
       500: {
         description: "Internal server error!",
       },
     },
   },
   async (c) => {
-    const { name } = c.req.valid("param");
+    const { name } = c.req.valid("json");
     const slug = slugify(name);
+
+    const checkComplex = await prisma.complex.findUnique({
+      where: { slug },
+    });
+
+    if (checkComplex)
+      return c.json(
+        {
+          message: "Cannot create complex: already exists",
+          complex: checkComplex,
+        },
+        409,
+      );
+
     try {
       const newComplex = await prisma.complex.create({
         data: { name, slug },
