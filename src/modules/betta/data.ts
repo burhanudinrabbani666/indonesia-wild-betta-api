@@ -9,7 +9,7 @@ export const bettas: Bettas = [
     province: "east-kalimantan",
     phWater: "3.7 - 5.3",
     complexSlug: "unimaculata",
-    categorySlug: "mouth brooder large",
+    categorySlug: "mouth-brooder-large",
   },
   {
     name: "betta galdiator",
