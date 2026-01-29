@@ -6,7 +6,9 @@ import {
   GetBettaByIdSchema,
   GetBettaSchema,
   PatchBettaSchema,
-} from "../schema";
+  PostBettaSchema,
+} from "./schema";
+import slugify from "slugify";
 
 export const bettaRoute = new OpenAPIHono();
 const tag = ["Bettas"];
@@ -196,7 +198,7 @@ bettaRoute.openapi(
     request: {
       body: {
         content: {
-          "application/json": { schema: BettaSchema },
+          "application/json": { schema: PostBettaSchema },
         },
       },
     },
@@ -241,7 +243,7 @@ bettaRoute.openapi(
         return await tx.betta.create({
           data: {
             name: body.name,
-            slug: body.slug,
+            slug: slugify(body.name),
             river: body.river,
             city: body.city,
             province: body.province,

@@ -88,6 +88,16 @@ export const GetBettaByCategorySchema = z.object({
   categorySlug: z.string(),
 });
 
+export const PostBettaSchema = BettaSchema.pick({
+  name: true,
+  river: true,
+  city: true,
+  province: true,
+  phWater: true,
+  complexSlug: true,
+  categorySlug: true,
+});
+
 export const PatchBettaSchema = z.object({
   name: z.string().min(3).max(100).trim().optional().openapi({
     example: "betta hendra",

@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { BettaSchema, GetBettaByComplexSchema } from "../schema";
+import { BettaSchema, GetBettaByComplexSchema } from "../betta/schema";
 
 export const complexRoute = new OpenAPIHono();
 

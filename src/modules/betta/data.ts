@@ -1,4 +1,4 @@
-import { Bettas } from "./schema";
+import { Bettas } from "./betta/schema";
 
 export const bettas: Bettas = [
   {

@@ -5,7 +5,7 @@ import {
   GetCategorySchema,
   PostCategory,
 } from "./schema";
-import { GetBettaSchema } from "../schema";
+import { GetBettaSchema } from "../betta/schema";
 import slugify from "slugify";
 
 export const categoryRoutes = new OpenAPIHono();
