@@ -1,7 +1,12 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
-import { GetBettaByCategorySchema, GetCategorySchema } from "./schema";
+import {
+  GetBettaByCategorySchema,
+  GetCategorySchema,
+  PostCategory,
+} from "./schema";
 import { GetBettaSchema } from "../schema";
+import slugify from "slugify";
 
 export const categoryRoutes = new OpenAPIHono();
 const tag = ["Category"];
@@ -99,6 +104,52 @@ categoryRoutes.openapi(
         },
         500,
       );
+    }
+  },
+);
+
+// Post Category
+categoryRoutes.openapi(
+  {
+    method: "post",
+    path: "/",
+    description: "Create new category",
+    tags: tag,
+    request: {
+      body: {
+        content: { "application/json": { schema: PostCategory } },
+      },
+    },
+    responses: {
+      201: {
+        description: "Successfully create category",
+        content: { "application/json": { schema: GetCategorySchema } },
+      },
+      400: {
+        description:
+          "Failed to enter data. Make sure the data matches what was requested.",
+      },
+      500: {
+        description: "Internal server error",
+      },
+    },
+  },
+  async (c) => {
+    try {
+      const { name } = c.req.valid("json");
+      const slug = slugify(name);
+
+      const newCategory = await prisma.category.upsert({
+        where: { slug },
+        update: { name },
+        create: { name, slug },
+      });
+
+      return c.json(newCategory, 201);
+    } catch (error) {
+      console.log(error);
+
+      return c.json(error, 500);
     }
   },
 );

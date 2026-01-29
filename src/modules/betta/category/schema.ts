@@ -4,10 +4,10 @@ export const GetCategorySchema = z.object({
   id: z.int().openapi({
     example: 1,
   }),
-  name: z.string().openapi({
+  name: z.string().min(3).max(100).trim().openapi({
     example: "mouth-brooder-small",
   }),
-  slug: z.string().openapi({
+  slug: z.string().min(3).max(100).trim().openapi({
     example: "mouth-brooder-small",
   }),
   createdAt: z.date().openapi({
@@ -22,4 +22,8 @@ export const GetBettaByCategorySchema = z.object({
   slug: z.string().min(3).openapi({
     example: "mouth-brooder-small",
   }),
+});
+
+export const PostCategory = GetCategorySchema.pick({
+  name: true,
 });
