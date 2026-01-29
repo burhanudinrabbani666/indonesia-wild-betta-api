@@ -109,13 +109,23 @@ bettaRoute.openapi(
         description: "Succesfully get Betta",
         content: { "application/json": { schema: BettaSchema } },
       },
+      400: {
+        description: "Bad Request!",
+      },
+
       404: {
         description: "Betta not found",
+      },
+      500: {
+        description: "Internal server error!",
       },
     },
   },
   async (c) => {
-    const id = Number(c.req.param("id"));
+    const req = c.req.valid("param");
+    const id = Number(req.id);
+
+    if (!id) return c.json({ message: "Id not Valid" }, 400);
 
     try {
       const betta = await prisma.betta.findUnique({
@@ -128,11 +138,11 @@ bettaRoute.openapi(
         },
       });
 
-      if (!betta) return c.json("Betta not found!", 400);
+      if (!betta) return c.json("Betta not found!", 404);
 
       return c.json(betta, 200);
     } catch (error) {
-      return c.json({ message: "Betta not found!", id }, 404);
+      return c.json({ message: "Internal server error!", error, id }, 500);
     }
   },
 );

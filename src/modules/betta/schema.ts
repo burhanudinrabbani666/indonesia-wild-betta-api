@@ -75,7 +75,9 @@ export const GetBettaBySlugSchema = z.object({
 });
 
 export const GetBettaByIdSchema = z.object({
-  id: z.string(),
+  id: z.string().min(1).openapi({
+    example: 1,
+  }),
 });
 
 export const GetBettaByComplexSchema = z.object({
