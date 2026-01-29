@@ -2,9 +2,9 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { prisma } from "../../../lib/prisma";
 import {
   GetBettaByCategorySchema,
-  BettaSchema,
-  GetComplexSchema,
-} from "../schema";
+  GetBettaScheama,
+  GetCategorySchema,
+} from "./schema";
 
 export const categoryRoutes = new OpenAPIHono();
 const tag = ["category"];
@@ -14,13 +14,13 @@ categoryRoutes.openapi(
   {
     method: "get",
     path: "/",
-    description: "Get complex's",
+    description: "Get Category's data",
     tags: tag,
     responses: {
       200: {
         description: "Succesfully get all Complex",
         content: {
-          "application/json": { schema: GetComplexSchema },
+          "application/json": { schema: GetCategorySchema },
         },
       },
       400: {
@@ -45,11 +45,11 @@ categoryRoutes.openapi(
   },
 );
 
-// Get one bt
+// Get Bettas By category slug
 categoryRoutes.openapi(
   {
     method: "get",
-    path: "/{category}",
+    path: "/{slug}",
     description: "Get one Betta by Category",
     tags: tag,
     request: {
@@ -57,27 +57,51 @@ categoryRoutes.openapi(
     },
     responses: {
       200: {
-        description: "OK",
+        description: "Succesfully get Bettas by category",
         content: {
-          "application/json": { schema: BettaSchema },
+          "application/json": { schema: GetBettaScheama },
         },
       },
       404: {
-        description: "Category not found",
+        description: "Category not found!",
+      },
+      500: {
+        description: "Internal server error",
       },
     },
   },
   async (c) => {
-    const bettas = c.req.param("category");
-    const bettasByCategory = await prisma.betta.findMany({
-      where: {
-        category: bettas,
-      },
-    });
+    const { slug } = c.req.valid("param");
+    try {
+      const bettas = await prisma.betta.findMany({
+        where: {
+          category: {
+            slug,
+          },
+        },
+        include: {
+          complex: true,
+          category: true,
+        },
+      });
 
-    if (bettasByCategory.length === 0)
-      return c.json({ message: "Category not found" }, 400);
+      if (!bettas || bettas.length === 0) {
+        return c.json(
+          {
+            message: "Category or Betta not found!",
+          },
+          404,
+        );
+      }
 
-    return c.json({ bettasByCategory });
+      return c.json(bettas, 200);
+    } catch (error) {
+      return c.json(
+        {
+          message: "Internal server error",
+        },
+        500,
+      );
+    }
   },
 );

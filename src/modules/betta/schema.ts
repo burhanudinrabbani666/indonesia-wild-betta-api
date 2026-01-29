@@ -77,23 +77,5 @@ export const GetComplexSchema = z.object({
   }),
 });
 
-export const GetCategorySchema = z.object({
-  id: z.int().openapi({
-    example: 1,
-  }),
-  name: z.string().openapi({
-    example: "mouth-brooder-small",
-  }),
-  slug: z.string().openapi({
-    example: "mouth-brooder-small",
-  }),
-  createdAt: z.date().openapi({
-    example: "2026-01-28T15:16:41.151Z",
-  }),
-  updatedAt: z.date().openapi({
-    example: "2026-01-28T15:16:41.151Z",
-  }),
-});
-
 export type Betta = z.infer<typeof BettaSchema>;
 export type Bettas = Betta[];
