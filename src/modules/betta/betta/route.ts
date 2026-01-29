@@ -4,10 +4,12 @@ import {
   BettaSchema,
   GetBettaBySlugSchema,
   GetBettaByIdSchema,
-  GetBettaScheama,
+  GetBettaSchema,
+  PatchBettaSchema,
 } from "../schema";
 
 export const bettaRoute = new OpenAPIHono();
+const tag = ["Bettas"];
 
 // 1. Get all bettas
 bettaRoute.openapi(
@@ -15,6 +17,7 @@ bettaRoute.openapi(
     method: "get",
     path: "/",
     description: "Get all bettas",
+    tags: tag,
     responses: {
       200: {
         description: "Successfully get all bettas",
@@ -45,13 +48,14 @@ bettaRoute.openapi(
     method: "get",
     path: "/{slug}",
     description: "Get One Betta by slug",
+    tags: tag,
     request: {
       params: GetBettaBySlugSchema,
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: GetBettaScheama } },
+        content: { "application/json": { schema: GetBettaSchema } },
       },
       404: {
         description: "Betta not found!",
@@ -101,13 +105,14 @@ bettaRoute.openapi(
     method: "get",
     path: "/id/{id}",
     description: "Get Betta by ID",
+    tags: tag,
     request: {
       params: GetBettaByIdSchema,
     },
     responses: {
       200: {
         description: "Succesfully get Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        content: { "application/json": { schema: GetBettaSchema } },
       },
       400: {
         description: "Bad Request!",
@@ -153,6 +158,7 @@ bettaRoute.openapi(
     method: "delete",
     path: "/{id}",
     description: "Delete Betta by id",
+    tags: tag,
     request: {
       params: GetBettaByIdSchema,
     },
@@ -169,24 +175,11 @@ bettaRoute.openapi(
     const id = Number(c.req.param("id"));
 
     try {
-      const deleteBetta = await prisma.betta.delete({
-        where: { id },
-      });
+      const deleteBetta = await prisma.betta.delete({ where: { id } });
 
-      return c.json(
-        {
-          message: "betta has been deleted",
-        },
-        200,
-      );
+      return c.json({ message: "betta has been deleted" }, 200);
     } catch (error) {
-      return c.json(
-        {
-          message: "Betta not found!",
-          id,
-        },
-        404,
-      );
+      return c.json({ message: "Betta not found!", id }, 404);
     }
   },
 );
@@ -196,6 +189,8 @@ bettaRoute.openapi(
   {
     method: "post",
     path: "/",
+    description: "Create new Betta",
+    tags: tag,
     request: {
       body: {
         content: {
@@ -206,6 +201,7 @@ bettaRoute.openapi(
     responses: {
       201: {
         description: "Successfully create Betta",
+        content: { "application/json": { schema: GetBettaSchema } },
       },
       400: {
         description:
@@ -274,38 +270,89 @@ bettaRoute.openapi(
     method: "patch",
     path: "/{id}",
     description: "Patch betta by ID",
+    tags: tag,
     request: {
       params: GetBettaByIdSchema,
       body: {
         content: {
-          "application/json": { schema: BettaSchema.partial() },
+          "application/json": { schema: PatchBettaSchema },
         },
       },
     },
     responses: {
       200: {
         description: "Succesfully update Betta",
-        content: { "application/json": { schema: BettaSchema } },
+        content: { "application/json": { schema: GetBettaSchema } },
       },
       404: {
-        description: "Betta not found",
+        description: "Betta not found!",
+      },
+      500: {
+        description: "Internal server error!",
       },
     },
   },
   async (c) => {
     const id = Number(c.req.param("id"));
+    const body = c.req.valid("json");
 
     try {
-      const body = await c.req.json();
+      const result = await prisma.$transaction(async (tx) => {
+        let complexId;
+        let categoryId;
 
-      const updateBetta = await prisma.betta.update({
-        where: { id },
-        data: { ...body },
+        if (body.complexSlug !== undefined) {
+          const complex = await tx.complex.upsert({
+            where: {
+              slug: body.complexSlug,
+            },
+            update: { name: body.complexSlug },
+            create: {
+              name: body.complexSlug,
+              slug: body.complexSlug,
+            },
+          });
+
+          complexId = complex.id;
+        }
+
+        if (body.categorySlug !== undefined) {
+          const category = await tx.category.upsert({
+            where: {
+              slug: body.categorySlug,
+            },
+            update: { name: body.categorySlug },
+            create: {
+              name: body.categorySlug,
+              slug: body.categorySlug,
+            },
+          });
+
+          categoryId = category.id;
+        }
+
+        return tx.betta.update({
+          where: { id },
+          data: {
+            ...(body.name !== undefined && { name: body.name }),
+            ...(body.slug !== undefined && { slug: body.slug }),
+            ...(body.river !== undefined && { river: body.river }),
+            ...(body.city !== undefined && { city: body.city }),
+            ...(body.province !== undefined && { province: body.province }),
+            ...(body.phWater !== undefined && { phWater: body.phWater }),
+            ...(complexId !== undefined && { complexId }),
+            ...(categoryId !== undefined && { categoryId }),
+          },
+        });
       });
 
-      return c.json({ updateBetta });
-    } catch (error) {
-      return c.json({ message: "Betta not found", error }, 404);
+      return c.json({ result }, 200);
+    } catch (error: any) {
+      if (error.code === "P2025") {
+        return c.json({ message: "Betta not found" }, 404);
+      }
+
+      return c.json({ message: "Internal Server error", error }, 500);
     }
   },
 );

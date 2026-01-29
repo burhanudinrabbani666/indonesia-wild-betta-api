@@ -1,5 +1,5 @@
 import { z } from "@hono/zod-openapi";
-export const GetBettaScheama = z.object({
+export const GetBettaSchema = z.object({
   id: z.int().openapi({ example: 1 }),
   name: z.string().openapi({ example: "betta compuncta" }),
   slug: z.string().openapi({ example: "betta-compuncta" }),
@@ -88,21 +88,44 @@ export const GetBettaByCategorySchema = z.object({
   categorySlug: z.string(),
 });
 
-export const GetComplexSchema = z.object({
-  id: z.int().openapi({
-    example: 1,
+export const PatchBettaSchema = z.object({
+  name: z.string().min(3).max(100).trim().optional().openapi({
+    example: "betta hendra",
+    minimum: 3,
+    maximum: 100,
   }),
-  name: z.string().openapi({
-    example: "unimaculata",
+  slug: z.string().min(3).max(100).trim().optional().openapi({
+    example: "betta-hendra",
   }),
-  slug: z.string().openapi({
-    example: "unimaculta",
+  river: z.string().min(3).max(100).trim().nullable().optional().openapi({
+    example: "sabangau",
+    minimum: 3,
+    maximum: 100,
   }),
-  createdAt: z.date().openapi({
-    example: "2026-01-28T15:16:41.151Z",
+  city: z.string().min(3).max(100).trim().nullable().optional().openapi({
+    example: "katingan",
+    minimum: 3,
+    maximum: 100,
   }),
-  updatedAt: z.date().openapi({
-    example: "2026-01-28T15:16:41.151Z",
+  province: z.string().min(3).max(100).trim().nullable().optional().openapi({
+    example: "central-kalimantan",
+    minimum: 3,
+    maximum: 100,
+  }),
+  phWater: z.string().min(3).max(100).trim().nullable().optional().openapi({
+    example: "4.0 - 6.5",
+    minimum: 3,
+    maximum: 100,
+  }),
+  complexSlug: z.string().min(3).max(100).trim().optional().openapi({
+    example: "coccina",
+    minimum: 3,
+    maximum: 100,
+  }),
+  categorySlug: z.string().min(3).max(100).trim().optional().openapi({
+    example: "bubble-nester-small",
+    minimum: 3,
+    maximum: 100,
   }),
 });
 
