@@ -3,7 +3,7 @@ import { prisma } from "../../../lib/prisma";
 import {
   GetBettaByCategorySchema,
   GetCategorySchema,
-  PostCategory,
+  PostCategorySchema,
 } from "./schema";
 import { GetBettaSchema } from "../betta/schema";
 import slugify from "slugify";
@@ -117,7 +117,7 @@ categoryRoutes.openapi(
     tags: tag,
     request: {
       body: {
-        content: { "application/json": { schema: PostCategory } },
+        content: { "application/json": { schema: PostCategorySchema } },
       },
     },
     responses: {

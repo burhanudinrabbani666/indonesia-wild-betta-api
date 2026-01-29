@@ -1,14 +1,14 @@
 import { z } from "@hono/zod-openapi";
 
-export const GetCategorySchema = z.object({
+export const GetComplexSchema = z.object({
   id: z.int().openapi({
     example: 1,
   }),
   name: z.string().min(3).max(100).trim().openapi({
-    example: "mouth-brooder-small",
+    example: "coccina",
   }),
   slug: z.string().min(3).max(100).trim().openapi({
-    example: "mouth-brooder-small",
+    example: "coccina",
   }),
   createdAt: z.date().openapi({
     example: "2026-01-28T15:16:41.151Z",
@@ -18,12 +18,9 @@ export const GetCategorySchema = z.object({
   }),
 });
 
-export const GetBettaByCategorySchema = z.object({
-  slug: z.string().min(3).openapi({
-    example: "mouth-brooder-small",
-  }),
+export const GetBettaByComplex = GetComplexSchema.pick({
+  slug: true,
 });
-
-export const PostCategorySchema = GetCategorySchema.pick({
+export const PostComplexSchema = GetComplexSchema.pick({
   name: true,
 });
