@@ -98,46 +98,7 @@ export const PostBettaSchema = BettaSchema.pick({
   categorySlug: true,
 });
 
-export const PatchBettaSchema = z.object({
-  name: z.string().min(3).max(100).trim().optional().openapi({
-    example: "betta hendra",
-    minimum: 3,
-    maximum: 100,
-  }),
-  slug: z.string().min(3).max(100).trim().optional().openapi({
-    example: "betta-hendra",
-  }),
-  river: z.string().min(3).max(100).trim().nullable().optional().openapi({
-    example: "sabangau",
-    minimum: 3,
-    maximum: 100,
-  }),
-  city: z.string().min(3).max(100).trim().nullable().optional().openapi({
-    example: "katingan",
-    minimum: 3,
-    maximum: 100,
-  }),
-  province: z.string().min(3).max(100).trim().nullable().optional().openapi({
-    example: "central-kalimantan",
-    minimum: 3,
-    maximum: 100,
-  }),
-  phWater: z.string().min(3).max(100).trim().nullable().optional().openapi({
-    example: "4.0 - 6.5",
-    minimum: 3,
-    maximum: 100,
-  }),
-  complexSlug: z.string().min(3).max(100).trim().optional().openapi({
-    example: "coccina",
-    minimum: 3,
-    maximum: 100,
-  }),
-  categorySlug: z.string().min(3).max(100).trim().optional().openapi({
-    example: "bubble-nester-small",
-    minimum: 3,
-    maximum: 100,
-  }),
-});
+export const PatchBettaSchema = PostBettaSchema;
 
 export type Betta = z.infer<typeof BettaSchema>;
 export type Bettas = Betta[];

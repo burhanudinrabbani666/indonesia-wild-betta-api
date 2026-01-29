@@ -224,7 +224,7 @@ bettaRoute.openapi(
               update: {},
               create: {
                 name: body.complexSlug,
-                slug: body.complexSlug,
+                slug: slugify(body.complexSlug),
               },
             })
           : null;
@@ -235,7 +235,7 @@ bettaRoute.openapi(
               update: {},
               create: {
                 name: body.categorySlug,
-                slug: body.categorySlug,
+                slug: slugify(body.categorySlug),
               },
             })
           : null;
@@ -279,7 +279,7 @@ bettaRoute.openapi(
       params: GetBettaByIdSchema,
       body: {
         content: {
-          "application/json": { schema: PatchBettaSchema },
+          "application/json": { schema: PatchBettaSchema.partial() },
         },
       },
     },
@@ -313,7 +313,7 @@ bettaRoute.openapi(
             update: { name: body.complexSlug },
             create: {
               name: body.complexSlug,
-              slug: body.complexSlug,
+              slug: slugify(body.complexSlug),
             },
           });
 
@@ -328,7 +328,7 @@ bettaRoute.openapi(
             update: { name: body.categorySlug },
             create: {
               name: body.categorySlug,
-              slug: body.categorySlug,
+              slug: slugify(body.categorySlug),
             },
           });
 
@@ -339,7 +339,7 @@ bettaRoute.openapi(
           where: { id },
           data: {
             ...(body.name !== undefined && { name: body.name }),
-            ...(body.slug !== undefined && { slug: body.slug }),
+            ...(body.name !== undefined && { slug: slugify(body.name) }),
             ...(body.river !== undefined && { river: body.river }),
             ...(body.city !== undefined && { city: body.city }),
             ...(body.province !== undefined && { province: body.province }),
