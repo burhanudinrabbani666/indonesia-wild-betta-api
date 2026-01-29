@@ -135,10 +135,20 @@ categoryRoutes.openapi(
     },
   },
   async (c) => {
-    try {
-      const { name } = c.req.valid("json");
-      const slug = slugify(name);
+    const { name } = c.req.valid("json");
+    const slug = slugify(name);
 
+    const checkCategory = await prisma.category.findUnique({ where: { slug } });
+
+    if (checkCategory)
+      return c.json(
+        {
+          message: "Cannot create complex: already exists",
+          category: checkCategory,
+        },
+        409,
+      );
+    try {
       const newCategory = await prisma.category.create({
         data: { name, slug },
       });
