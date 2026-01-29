@@ -114,10 +114,8 @@ complexRoute.openapi(
     const { name } = c.req.valid("param");
     const slug = slugify(name);
     try {
-      const newComplex = await prisma.complex.upsert({
-        where: { slug },
-        update: { name, slug },
-        create: { name, slug },
+      const newComplex = await prisma.complex.create({
+        data: { name, slug },
       });
 
       return c.json(

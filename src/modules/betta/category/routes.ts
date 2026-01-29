@@ -139,10 +139,8 @@ categoryRoutes.openapi(
       const { name } = c.req.valid("json");
       const slug = slugify(name);
 
-      const newCategory = await prisma.category.upsert({
-        where: { slug },
-        update: { name },
-        create: { name, slug },
+      const newCategory = await prisma.category.create({
+        data: { name, slug },
       });
 
       return c.json(newCategory, 201);

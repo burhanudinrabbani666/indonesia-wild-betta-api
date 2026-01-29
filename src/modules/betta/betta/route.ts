@@ -40,7 +40,7 @@ bettaRoute.openapi(
       });
       return c.json(allBettas, 200);
     } catch (error) {
-      return c.json({ message: "Failed to get all Betta's", error }, 500);
+      return c.json({ message: "Failed to get all Betta's" }, 500);
     }
   },
 );
@@ -97,7 +97,7 @@ bettaRoute.openapi(
 
       return c.json(betta, 200);
     } catch (error) {
-      return c.json({ message: "Internal server error!", error, slug }, 500);
+      return c.json({ message: "Internal server error!" }, 500);
     }
   },
 );
@@ -217,7 +217,7 @@ bettaRoute.openapi(
     const body = c.req.valid("json");
 
     try {
-      const result = await prisma.$transaction(async (tx) => {
+      const betta = await prisma.$transaction(async (tx) => {
         const complex = body.complexSlug
           ? await tx.complex.upsert({
               where: { slug: body.complexSlug },
@@ -260,7 +260,7 @@ bettaRoute.openapi(
 
       return c.json({
         message: "Successfully create Betta",
-        result,
+        result: betta,
       });
     } catch (error) {
       return c.json({ message: error }, 400);
@@ -301,7 +301,7 @@ bettaRoute.openapi(
     const body = c.req.valid("json");
 
     try {
-      const result = await prisma.$transaction(async (tx) => {
+      const betta = await prisma.$transaction(async (tx) => {
         let complexId;
         let categoryId;
 
@@ -347,10 +347,14 @@ bettaRoute.openapi(
             ...(complexId !== undefined && { complexId }),
             ...(categoryId !== undefined && { categoryId }),
           },
+          include: {
+            complex: true,
+            category: true,
+          },
         });
       });
 
-      return c.json({ result }, 200);
+      return c.json({ result: betta }, 200);
     } catch (error: any) {
       if (error.code === "P2025") {
         return c.json({ message: "Betta not found" }, 404);

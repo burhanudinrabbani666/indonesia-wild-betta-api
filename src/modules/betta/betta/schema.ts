@@ -69,7 +69,7 @@ export const BettaSchema = z.object({
 });
 
 export const GetBettaBySlugSchema = z.object({
-  slug: z.string().min(3).max(100).trim().openapi({
+  slug: z.string().min(3).max(100).trim().toLowerCase().openapi({
     example: "betta-hendra",
   }),
 });
@@ -81,11 +81,11 @@ export const GetBettaByIdSchema = z.object({
 });
 
 export const GetBettaByComplexSchema = z.object({
-  complexSlug: z.string(),
+  complexSlug: z.string().toLowerCase(),
 });
 
 export const GetBettaByCategorySchema = z.object({
-  categorySlug: z.string(),
+  categorySlug: z.string().toLowerCase(),
 });
 
 export const PostBettaSchema = BettaSchema.pick({
